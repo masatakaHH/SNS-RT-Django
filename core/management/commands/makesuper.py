@@ -1,0 +1,14 @@
+from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
+from accounts.models import User
+
+
+class Command(BaseCommand):
+    def handle(self, *args, **options):
+        #User = get_user_model()
+        qs = User.objects.filter(email='admin@admin.com')
+        if not qs.exists():
+            User.objects.create_superuser(
+                'admin@admin.com',                
+                'hackjack'
+            )

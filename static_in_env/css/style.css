@@ -1,0 +1,230 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    color: #333;
+}
+
+.alert-error {
+    background-color: #c1c1c1;
+    color: #ff0000;
+}
+
+.primary {
+    background-color: #3e78cf;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.account-box {
+    background-color: #fff;
+    color: #333;
+    padding: 1rem;
+}
+
+#id_login,
+#id_password,
+#id_password1,
+#id_password2,
+#id_email {
+    width: 100%;
+}
+
+.page-title {
+    color: #333;
+}
+
+#div_id_remember {
+    display: none;
+}
+
+a:hover {
+    color: #3e78cf;
+}
+
+.messages {
+    position: absolute;
+    top: 95px;
+    left: 50%;
+    z-index: 9999;
+    width: 50%;
+    transform: translateX(-40%);
+}
+
+.table tbody tr td {
+    position: relative;
+}
+
+
+/* Campaign create page*/
+.modal{
+    overflow: auto;
+}
+
+.create-modal .modal-content .card-wrapper{
+    all: unset;
+    display: flex;
+    flex-wrap: nowrap;
+}
+.create-modal .modal-content .card-wrapper .type-card{
+    flex: 1 1 100%;
+    margin: 20px;
+    padding: 30px;
+    border: 2px solid #e9e9e9;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.form-field-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+.gift-card-group .gift-card{
+    height: 130px;
+    display: flex; 
+}
+.gift-card-group .gift-card-add{
+    width: 100%;
+    padding: 5%;
+}
+.gift-card-group .gift-card:last-child .card-content {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: stretch;
+    padding: 20px;
+    border: 1px solid #ebeced;
+    overflow: hidden;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+}
+.gift-card-group .gift-card .card-content .content-left {
+    flex: 0 0 90px;
+    margin-right: 16px;
+}
+.gift-card-group .gift-card .card-content .content-left img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.gift-card-group .gift-card .card-content .content-right{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.gift-card-group .gift-card .card-content .content-right .right-top{
+    flex: 0 0 18px;
+    color: #bfbfbf;
+    display: flex;
+    justify-content: space-between;
+}
+.gift-card-group .gift-card .card-content .content-right .right-bottom{
+    flex: 1 1 auto;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+}
+.gift-card-group .gift-card .card-content .content-right .right-bottom .right-bottom-left{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.gift-card-group .gift-card .card-content .content-right .right-bottom .right-bottom-left .right-bottom-left-top{
+    flex: 1 1 100%;
+}
+
+.gift-card-group .gift-card .card-content .content-right .right-bottom .right-bottom-left .right-bottom-left-bottom{
+    flex: 0 0 18px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #9b9b9b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.gift-card-group .gift-card .card-content .content-right .right-bottom .right-bottom-right{
+    flex: 0 0 144px;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+}
+.gift-card-group .gift-card .card-content .content-right .right-bottom .right-bottom-right .btns i{
+    margin-left: 24px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+/* campaign dashboard*/
+.table.my-campaigns-table tr td .campaign-img-wrapper, .table.my-campaigns-table tr th .campaign-img-wrapper{
+    position: relative;
+    display: inline-block;
+    width: 130px;
+    height: auto;
+    flex-shrink: 0;
+}
+.table.my-campaigns-table tr td .campaign-img-wrapper .campaign-img, .table.my-campaigns-table tr th .campaign-img-wrapper .campaign-img{
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+}
+.table.my-campaigns-table tr td .title-wrapper, .table.my-campaigns-table tr th .title-wrapper{
+    margin-left: 16px;
+}
+.table tr.hover:hover{
+    background-color: #f7f8fc;
+    box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
+}
+.table.my-campaigns-table tr.hover:hover{
+    cursor: pointer;
+}
+
+/* profile page*/
+.sns-list .sns-item{
+    align-items: center;
+    border-bottom: 1px solid #f7f8fc;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px 0;
+}
+.sns-list .sns-item .sns-name{
+    flex-grow: 2;
+    text-align: left;
+    margin-left: 10px;
+}
+.or{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+}
+.divider{
+    width: 100%;
+    height: 1px;
+    background-color: #e9e9e9;
+    margin: 0 auto;
+}
+.or p{
+    position: absolute;
+    padding: 0 20px;
+    margin: 0;
+    background-color: #fff;
+    color: #9b9b9b;
+}

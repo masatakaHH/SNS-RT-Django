@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<div class="container-fluid">
+    <div class="page-head">
+        <h4 class="mt-2 mb-2">ユーザー情報</h4>
+    </div>
+    <div class="row margin-auto">
+        <div class="col-xl-6 col-lg-6 margin-auto">
+        <div class="card shadow">
+            <div class="card-body">
+            <h4 class="text-center text-bold">ユーザー情報変更</h4>         
+            <div class="form-row">
+                <div class="col-md-6">
+                    <form id="div_id_last_name" class="form-group editable-input-panel">
+                        {% csrf_token %}                      
+                        <label class="col-form-label">名字</label>                      
+                        <input type="text" name="last_name_jp" value="{{ request.user.last_name_jp }}" class="textinput textInput form-control" required="" id="id_last_name_jp">
+                        <label class="col-form-label">名字_カタカナ</label>                      
+                        <input type="text" name="last_name_kana" value="{{ request.user.last_name_kana }}" class="textinput textInput form-control" required="" id="id_last_name_kana">
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form id="div_id_first_name" class="form-group editable-input-panel">
+                        {% csrf_token %}                      
+                        <label class="col-form-label">名前</label>                      
+                        <input type="text" name="first_name_jp" value="{{ request.user.first_name_jp }}" class="textinput textInput form-control" required="" id="id_first_name_jp">
+                        <label class="col-form-label">名前_カタカナ</label>                      
+                        <input type="text" name="first_name_kana" value="{{ request.user.first_name_kana }}" class="textinput textInput form-control" required="" id="id_first_name_kana">
+                    </form>
+                </div>
+            </div>
+            
+            <label class="col-form-label">メールアドレス</label>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <form id="div_id_email" class="form-group mb-0 editable-input-panel">
+                        {% csrf_token %}                     
+                        <input type="email" name="email" value="{{ request.user.email }}" class="textinput textInput form-control" required="" id="id_email">                                      
+
+                    </form>
+                </div>
+            </div>        
+            <br>
+            <button class="btn btn-primary btn-center" id="change_user" name="user_form" value="change_user" style="width: 200px;">ユーザー情報変更</button>
+            <br>
+            <br>       
+            <h4 class="text-bold text-uppercase text-center">パスワード</h4>
+            <div class="form-row">
+                <div class="col-md-12">
+                <form method="post" class="form-group mb-0 editable-input-panel">
+                    {% csrf_token %}
+
+                    {#{{ pw_form|crispy }}#}
+                    <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        {{ pw_form.old_password|as_crispy_field }}
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        {{ pw_form.new_password1|as_crispy_field }}
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        {{ pw_form.new_password2|as_crispy_field }}
+                    </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-center" name="pw_form" value="change_password" type="submit" style="width: 200px;">パスワード変更</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block scripts %}
+
+<script type="text/javascript">
+    
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    $("#change_user").click(function(){
+        
+        var last_name_jp = $("#id_last_name_jp").val();
+        var last_name_kana = $("#id_last_name_kana").val();
+        var first_name_jp = $("#id_first_name_jp").val();
+        var first_name_kana = $("#id_first_name_kana").val();
+        var email = $("#id_email").val();    
+        $.ajax({
+            url : '{% url 'dashboard:change_user' %}',
+            data:{
+                last_name_jp : last_name_jp,
+                last_name_kana : last_name_kana,
+                first_name_jp: first_name_jp,
+                first_name_kana: first_name_kana,
+                email : email,        
+                csrfmiddlewaretoken: "{{ csrf_token }}"
+            },
+            type:'POST',
+            success:function(data){
+                alert("成功的に変更されました。");
+                $("#id_last_name_jp").val(last_name_jp);
+                $("#id_last_name_kana").val(last_name_kana);
+                $("#id_email").val(email);
+                $("#id_first_name_jp").val(first_name_jp);
+                $("#id_first_name_kana").val(first_name_kana);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

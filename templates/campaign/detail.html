@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load sys_template %}
+{% load static %}
+{% block content %}      
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">                
+                <h4 class="page-title">{{object.title}}</h4>
+                <div>
+                    <a target="_blank" class="btn btn-info btn-sm" href="{{object.id|campaign_url}}">プレビュー</a>
+                    <a class="btn btn-primary btn-sm" href="{% url 'dashboard:campaign-edit' campaign_id=object.id%}">編集</a>
+                    <button type="button" class="btn btn-danger btn-sm">公開予約</button>
+                <div>
+            </div>
+        </div>
+    </div>     
+    <!-- end page title -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">                    
+                    
+                    <div id="basicwizard">
+
+                        <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+                            <li class="nav-item">
+                                <a href="#basictab1" data-toggle="tab" class="nav-link">
+                                    <span class="d-none d-sm-inline">ホーム</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#basictab2" data-toggle="tab" class="nav-link">                                    
+                                    <span class="d-none d-sm-inline">ギフト</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#basictab3" data-toggle="tab" class="nav-link">                                    
+                                    <span class="d-none d-sm-inline">応募</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#basictab4" data-toggle="tab" class="nav-link">                                    
+                                    <span class="d-none d-sm-inline">発送</span>
+                                </a>
+                            </li>                            
+                        </ul>
+
+                        <div class="tab-content b-0 mb-0">
+                            <div class="tab-pane" id="basictab1">
+                                <div class="row">
+                                    <div class="col-7">                                        
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>基本情報</h4>
+                                                <div class="form-group">
+                                                    <label>抽選方式</label>
+                                                    <input type="text" value="{{object.casttype}}" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>キャンペーンURL</label>
+                                                    <input type="url" class="form-control" value="{{object.id|campaign_url}}" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>期間</label>
+                                                    <p>{{object.sdate|date:"Y-m-d"}}</p>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-5">                                        
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>インサイト</h4>
+                                                <p>{{object.sdate|date:"Y-m-d"}}</p>
+                                                <div class="d-flex justify-content">
+                                                    <label>応募者</label>
+                                                    <p >{{object.casttype}}</p>
+                                                </div>
+                                                <div class="d-flex justify-content">                                                    
+                                                    <label>閲覧者</label>
+                                                    <p >{{object.casttype}}</p>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                                <div class="row">
+                                    <div class="col-7">                                        
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>ギフト</h4>
+                                                <div class="form-group">
+                                                    <label>クーポン</label>
+                                                    <input type="text" value="{{object.casttype}}" disabled>
+                                                </div>
+                                                
+                                            </div>                                           
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                                <div class="row">
+                                    <div class="col-7">                                        
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>アクション</h4>
+                                                <div class="form-group">
+                                                    <label>フォロー</label>
+                                                    <input type="text" value="{{object.casttype}}" disabled>
+                                                </div>
+                                                
+                                            </div>                                           
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </div>
+
+                            <div class="tab-pane" id="basictab2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                
+                                            </div>                                           
+                                        </div>
+                                        
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->                                
+                            </div>
+
+                            <div class="tab-pane" id="basictab3">
+                                <div class="row">
+                                    <div class="col-12">
+                                                                    
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </div>
+
+                            <div class="tab-pane" id="basictab4">
+                                <div class="row">
+                                    <div class="col-12">                         
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </div>                            
+
+                        </div> <!-- tab-content -->
+                    </div> <!-- end #basicwizard-->
+                    
+
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+
+</div> <!-- container -->
+
+{% endblock content %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+<!-- DatePicker関係 -->
+<script src="{% static 'js/jquery-ui.min-1.13.2.js' %}"></script>
+<link rel="stylesheet" href="{% static 'js/jquery-ui-1.13.2.css' %}">
+<script src="{% static 'js/datepicker-ja.js' %}"></script>    
+<script>
+    
+    
+
+    
+    
+</script>
+
+<!-- キャンペーン保存 -->
+<script>
+    
+</script>
+{% endblock %}

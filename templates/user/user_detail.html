@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% load sys_template %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}      
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">ユーザー情報</h4>
+                
+            </div>
+        </div>
+    </div>     
+    <!-- end page title -->
+    <!-- start content -->
+    <div class="row">
+        <div class="col-lg-4 col-xl-4">
+            <div class="card text-center">
+                <div class="card-body">                    
+                    <img src="{%if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" class="rounded-circle avatar-xl img-thumbnail" id="avatar_preview" alt="profile-image">
+                    
+                    <h4 class="mt-3 mb-0">{{user.username}}</h4>
+                    <p class="text-muted">{{user.email}}</p>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="user_avatar" data-id="{{ user.id }}" id="user_avatar" class="btn btn-success btn-xs waves-effect mb-2 waves-light" accept="image/*">
+                    </form>
+
+                    <div class="text-left mt-3">
+                        <h4 class="font-13 text-uppercase">個人情報 :</h4>
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">名前 :</th>
+                                        <td class="text-muted">{{user.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">メールアドレス :</th>
+                                        <td class="text-muted">{{user.email}}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>                    
+                </div>
+            </div> <!-- end card-box -->
+        </div> <!-- end col-->
+
+        <div class="col-lg-8 col-xl-8">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills navtab-bg">
+                        <li class="nav-item">
+                            <a href="#about-me" data-toggle="tab" aria-expanded="true" class="nav-link active ml-0">
+                                <i class="mdi mdi-face-profile mr-1"></i>プロフィール
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#settings_email" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                <i class="mdi mdi-email-check-outline mr-1"></i>メールアドレス
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#settings_pw" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                <i class="mdi mdi-eye-check-outline mr-1"></i>パスワード変更
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#settings_sns" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                <i class="mdi mdi-twitter mr-1"></i>SNS連携
+                            </a>
+                        </li>                        
+                    </ul>
+
+                    <div class="tab-content">
+                        
+                        <div class="tab-pane show active" id="about-me">
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>クリエイター/ビジネス用プロフィール</h5>                            
+                            <form action="{%url 'accounts:update_profile'%}" method="POST" enctype="multipart/form-data">                                
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">キャンペーン主催者名</label>
+                                            <input type="text" class="form-control" name="owner_name" id="owner_name" value="{%if user.profile.owner_name%}{{user.profile.owner_name}}{%endif%}">
+                                        </div>
+                                    </div>                                   
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account_name">ユーザー名</label>
+                                            <input type="text" class="form-control" name="account_name" id="account_name" value="{%if user.profile.account_name%}{{user.profile.account_name}}{%endif%}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="brand_name">ブランド名</label>
+                                            <input type="text" class="form-control" name="brand_name" id="brand_name" value="{%if user.profile.brand_name%}{{user.profile.brand_name}}{%endif%}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="profile_url">ブランドURL</label>
+                                            <input type="text" class="form-control" name="profile_url" id="profile_url" value="{%if user.username%}{{user.username}}{%endif%}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="contact_form">キャンペーンお問い合わせ先（フォーム）</label>
+                                            <input type="url" class="form-control" name="contact_form" id="contact_form" value="{%if user.profile.contact_form%}{{user.profile.contact_form}}{%endif%}">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="contact_form_email">キャンペーンお問い合わせ先（メールアドレス）</label>
+                                            <input type="email" class="form-control" name="contact_form_email" id="contact_form_email" value="{%if user.profile.contact_form_email%}{{user.profile.contact_form_email}}{%endif%}">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">ヘッダー画像</label>
+                                            <input type="file" class="form-control" name="header_img" id="header_img">
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                </div> <!-- end row -->
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> 保存する</button>
+                                </div>
+                            </form>
+                            
+                        </div>
+                        <!-- end プロフィール-->
+
+                        <div class="tab-pane" id="settings_email">
+                            
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>メールアドレス設定</h5>
+                            <p>メールアドレスでログインする場合や、当選通知を受け取る場合に必要です。</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">現在</label>
+                                        <p>{{user.email}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                        
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">メールアドレスを変更する</label>
+                                        <input type="email" class="form-control mb-2" name="new_email" id="new_email" placeholder="メールアドレスを入力" required>
+                                        <input type="email" class="form-control mb-2" name="confirm_email" id="confirm_email" placeholder="メールアドレスを再度入力" required>
+                                        <p>新しいメールアドレスに認証リンクが送信され、認証するとメールアドレスが変更されます。</p>
+                                    </div>
+                                </div> 
+                                <!-- end col -->
+                            </div> <!-- end row -->                                
+                            <div class="text-right">
+                                <button type="button" class="btn btn-success waves-effect waves-light mt-2" onclick="change_email();"><i class="mdi mdi-content-save"></i> 保存する</button>
+                            </div>
+                            
+                        </div>
+                        <!-- end メールアドレス-->
+
+                        <div class="tab-pane" id="settings_pw">
+                            
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>パスワード変更</h5>
+                            <p>新しいパスワードを設定することができます。</p>
+                            <form method="post" action="{%url 'accounts:change_password'%}" class="form-group mb-0 editable-input-panel">
+                                {% csrf_token %}
+                                <div class="row">                        
+                                    <div class="col-md-6">
+                                        <div class="form-group">                                        
+                                            {{ pw_form.new_password1|as_crispy_field }}
+                                            {{ pw_form.new_password2|as_crispy_field }}
+                                            
+                                        </div>
+                                    </div> 
+                                    <!-- end col -->
+                                </div> <!-- end row -->                                
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> 保存する</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end パスワード変更-->
+
+                        <div class="tab-pane" id="settings_sns">
+                            
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>SNS連携</h5>                                      
+                            <div class="sns-list">
+                                <div class="sns-item">
+                                   <div class="sns-logo">
+                                        <img src="{% static 'images/twitter.svg'%}">
+                                   </div>
+                                   <div class="sns-name">
+                                        <div class="title">Twitter</div>
+                                        <div class="user">{%if twitteruser%}<span>@{{twitteruser.screen_name}}</span>として連携済み{%endif%}</div>
+                                   </div>
+                                   {%if twitteruser%}
+                                   <a class="btn btn-sm btn-light link-btn" href="{%url 'accounts:twitter_logout'%}">連携中</a>
+                                   {%else%}
+                                   <button class="btn btn-sm btn-danger link-btn">連携する</button>
+                                   {%endif%}
+                                </div>
+                            </div>                            
+                        </div>
+                        <!-- end メールアドレス-->
+
+                    </div> <!-- end tab-content -->
+                </div>
+            </div> <!-- end card-->
+
+        </div> <!-- end col -->
+    </div>
+    <!-- end content -->
+</div> <!-- container -->
+
+{% endblock content %}
+{% block scripts %}
+<!-- Magnific Popup-->
+<script src="{% static 'libs/magnific-popup/jquery.magnific-popup.min.js'%}"></script>
+<script>    
+
+    function addImage(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(e) {
+            $('#avatar_preview').attr('src', e.target.result);
+          }
+          
+          reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+    if(document.getElementById("user_avatar")) {
+        document.getElementById("user_avatar").addEventListener('change',function() {
+            var id = document.getElementById("user_avatar").getAttribute('data-id');        
+            var csrftoken = "{{ csrf_token }}";
+            var formData = new FormData();
+            formData.append('user_avatar', this.files[0]);
+            formData.append('csrfmiddlewaretoken', csrftoken);
+            formData.append('id', id);
+            console.log(formData);
+            var $this = this;
+            $.ajax({
+                url : '{% url 'accounts:update_user_photo' %}',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data){
+                    if(data.success){
+                        addImage($this)
+                    }
+    
+                }
+            });
+        },false);
+    }
+
+    let change_email = button =>{
+        var new_email = $("#new_email").val();
+        var confirm_email = $("#confirm_email").val();
+        if(new_email != confirm_email){
+            alert("メールアドレスが同じではありません！")
+        }else{
+            $.ajax({
+                url : '{% url 'accounts:change_email' %}',
+                data:{
+                    new_email: new_email,                    
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                type:'POST',
+                success:function(data){
+                    console.log(data);         
+                    window.location.replace("/accounts/profile/");   
+                }
+            });
+        }
+    }
+    
+</script>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}      
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">マイキャンペーン</h4>
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#create-modal">新しいキャンペーンを作成</button>
+                <!-- Modal -->
+                <div id="create-modal" class="modal fade create-modal" tabindex="-1" role="dialog" aria-labelledby="create-modalModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/dashboard/campaign-create/">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="multiple-oneModalLabel">抽選方式を選択してください。</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body card-wrapper" method="GET">
+                                
+                                <div class="type-card selected">
+                                    <h5 class="mt-0">インスタントウィン</h5>
+                                    <input type="radio" name="casttype" class="form-control" value="1" checked>
+                                    <p>その場ですぐに当選結果が分かる、自動抽選方式です。</p>
+                                    <p>当選人数が少ない場合（10名以下）や商品をギフトに設定したい場合にオススメです。</p>
+                                </div>
+                                <div class="type-card">
+                                    <h5 class="mt-0">後日抽選</h5>
+                                    <input type="radio" name="casttype" class="form-control" value="2">
+                                    <p>キャンペーン終了後、応募者一覧からランダム又は手動で当選者を抽選する、一般的な抽選方式です。</p>
+                                    <p>当選人数が少ない場合（10名以下）や商品をギフトに設定したい場合にオススメです。</p>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">作成画面へ</button>
+                            </div>
+                            </form>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                
+            </div>
+        </div>
+    </div>     
+    <!-- end page title -->
+
+    <!-- マイキャンペーン -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body userlist">
+                    <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 my-campaigns-table" cellspacing="0" id="basic-datatable">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="font-weight-medium">キャンペーン</th>
+                            <th class="font-weight-medium">ステータス</th>
+                            <th class="font-weight-medium">投稿日時</th>
+                            <th class="font-weight-medium">公開期間</th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="font-14">                            
+                            {%for obj in object_list%}
+                            <tr class="hover">                               
+                                <td class="d-flex align-items-center">
+                                    <div class="campaign-img-wrapper">
+                                        <img class="campaign-img" src="https://storage.googleapis.com/booster-jp/promo/img/waKHaShJ_1669009695_453061.jpeg">
+                                    </div>
+                                    <div class="title-wrapper"><a href="{%url 'dashboard:campaign-detail' pk=obj.id %}">{{obj.title}}</a></div>
+                                </td>
+                                <td>{{obj.context}}</td>
+                                <td>{{obj.sdate}}</td>
+                                <td>{{obj.created_at}}</td>                                                               
+                            </tr>
+                            {%endfor%}                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END マイキャンペーン -->
+
+</div> <!-- container -->
+
+{% endblock content %}
+{% block scripts %}
+<script>
+    $.fn.dataTable.moment( 'ddd, DD MMM, YYYY' );
+    $('div.userlist table.table').dataTable(
+        {
+            "scrollX": true,
+            "scrollY": "700px",
+            "scrollCollapse": true,
+            "paging":         true,
+            bAutoWidth: false,                
+            
+            "language":{
+                "url": "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json"
+            }
+        }
+    );
+    
+    
+</script>
+{% endblock %}
