@@ -121,7 +121,7 @@ EMAIL_FROM = "mycantest777@gmail.com"
 NAME_FROM = "Hello"
 EMAIL_USE_TLS = True
 
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 1024000000
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024000000
 
 if ENVIRONMENT == 'local':
     # Static files (CSS, JavaScript, Images)
