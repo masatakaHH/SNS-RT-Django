@@ -23,7 +23,7 @@ python-http-client==3.3.7
 pytz==2022.2.1
 stripe==5.0.0
 tweepy==4.10.0
-requests==2.25.1
+requests==2.27.0
 ulid-py==1.1.0
 urllib3==1.26.7
 uvicorn==0.17.5
