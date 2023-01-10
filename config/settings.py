@@ -107,6 +107,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS=1024000
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -115,7 +117,7 @@ LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 EMAIL_FILE_PATH = 'email_log'
-EMAIL_FROM = "hello@medicine.com"
+EMAIL_FROM = "mycantest777@gmail.com"
 NAME_FROM = "Hello"
 EMAIL_USE_TLS = True
 
@@ -205,9 +207,9 @@ if ENVIRONMENT == 'production':
             'STATIC_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
         MEDIA_URL = os.environ.get(
             'MEDIA_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
-        HOST_NAME = 'http://127.0.0.1:8000'
-        BACKEND_URL="http://127.0.0.1:8000"
-        FRONT_END_URL = "http://127.0.0.1:8000"
+        HOST_NAME = 'https://findmycampaign.com/'
+        BACKEND_URL="https://findmycampaign.com/"
+        FRONT_END_URL = "https://findmycampaign.com/"
            
     
     SENDGRID_API_KEY=os.environ.get('SENDGRID_API_KEY')
@@ -220,3 +222,6 @@ if ENVIRONMENT == 'production':
 
     STRIPE_PUBLIC_KEY = os.environ['STRIPE_LIVE_PUBLIC_KEY']
     STRIPE_SECRET_KEY = os.environ['STRIPE_LIVE_SECRET_KEY']
+    STRIPE_ENDPOINT_SECRET = os.environ['STRIPE_ENDPOINT_SECRET']
+    STRIPE_PRICE_ID = os.environ['STRIPE_PRICE_ID']
+    
