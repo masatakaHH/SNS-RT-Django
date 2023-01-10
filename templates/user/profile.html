@@ -12,7 +12,7 @@
 <!-- page starts -->
 <div class="container page-container booster-page">
     <div class="user-info d-flex flex-column align-items-center">
-        <img src="{%if user.profile.owner_name%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="profile-img rounded-circle">
+        <img src="{%if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="profile-img rounded-circle">
         <div class="user-name">
             <h2>{%if user.profile.owner_name%}{{user.profile.owner_name}}{%else%}未登録{%endif%}</h2>
         </div>
