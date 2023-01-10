@@ -11,7 +11,7 @@
                     <img src="{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}" alt="" class="campaign-image">
                 </div>
                 <a href="{%url 'accounts:profile-publish' pk=user.username %}" class="owner d-flex align-items-center justify-content-center py-2">
-                    <img src="{%if user.profile.owner_name%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="owner-icon">
+                    <img src="{%if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="owner-icon">
                     <div class="owner-brand">{%if user.profile.owner_name%}{{user.profile.owner_name}}{%else%}未登録{%endif%}</div>
                 </a>
                 <div class="period text-center py-2">
@@ -53,7 +53,9 @@
                         <div class="login-title mr-1"><span>{{request.user.username}}</span></div>
                         <div class="login-methods">
                             <div class="login-method">                                
-                                <img src="{%static 'images/twitter1.png'%}" class="ml-1">                               
+                                <img src="{%static 'images/twitter1.png'%}" class="ml-1">  
+                                <a href="{%url 'accounts:profile'%}" class="unauth"><span class="fs-10">設定変更</span></a>
+                                <a href="{%url 'accounts:account_logout'%}" class="unauth"><span class="fs-10">ログアウト</span></a>                             
                             </div>
                         </div>
                         {%else%}                        
