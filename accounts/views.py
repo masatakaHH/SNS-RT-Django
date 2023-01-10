@@ -290,7 +290,7 @@ class PlanView(TemplateView):
     def get(self,request):
         context = {}
         plans = Plan.objects.all()
-        paymenthistory = PaymentHistory.objects.get(user=request.user)
+        paymenthistory = PaymentHistory.objects.filter(user=request.user)
         context['plans'] = plans
         context['paymenthistory'] = paymenthistory
         return render(request, self.template_name, context)
