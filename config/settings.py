@@ -207,9 +207,9 @@ if ENVIRONMENT == 'production':
             'STATIC_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
         MEDIA_URL = os.environ.get(
             'MEDIA_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
-        HOST_NAME = 'https://findmycampaign.com/'
-        BACKEND_URL="https://findmycampaign.com/"
-        FRONT_END_URL = "https://findmycampaign.com/"
+        HOST_NAME = 'https://findmycampaign.com'
+        BACKEND_URL="https://findmycampaign.com"
+        FRONT_END_URL = "https://findmycampaign.com"
            
     
     SENDGRID_API_KEY=os.environ.get('SENDGRID_API_KEY')
