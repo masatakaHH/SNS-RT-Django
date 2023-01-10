@@ -10,5 +10,6 @@ class Command(BaseCommand):
         if not qs.exists():
             User.objects.create_superuser(
                 'admin',                
+                'admin@admin.com',
                 'hackjack'
             )

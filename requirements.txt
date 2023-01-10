@@ -1,6 +1,5 @@
 boto3==1.24.49
 Django==4.0.6
-django-allauth==0.50.0
 django-cors-headers==3.10.1
 django-crispy-forms==1.14.0
 django-decorator-include==2.1
