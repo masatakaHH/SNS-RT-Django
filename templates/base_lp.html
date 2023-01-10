@@ -6,173 +6,77 @@
     <meta charset="utf-8" data="text/plain">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Findmycampaign</title>
+    <title>FindMycampaign</title>
     {% block extra_head %}
     {% endblock %}
     <!-- App favicon -->
-    <link rel="shortcut icon" href="">    
+    <link rel="shortcut icon" href="{% static 'images/logo_mark.png'%}">
     <!-- App css -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bs-default-stylesheet">
-    <link href="{% static 'css/app.min.css' %}" rel="stylesheet" id="app-default-stylesheet">        
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="{% static 'css/style2.css' %}" rel="stylesheet">
     
 </head>
 
-<body class="loading">
-    <!-- Begin page -->
-    <div id="wrapper">
-
-        <!-- ============================================================== -->
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
-
-        <div class="content-page" style="margin-left:0;">
-        <div class="content">
-            <!-- Topbar Start -->
-            <div class="navbar-custom" style="left:0;">
-            <div class="container-fluid">
-
-                <ul class="list-unstyled topnav-menu float-right mb-0">
-
-                    <li class="dropdown d-none d-lg-inline-block">
-                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen" href="/">
-                            <i class="fe-maximize noti-icon"></i>
+<body class="page-booster">
+    <!-- header starts -->
+    <header>
+        <div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
+            <a href="{%url 'accounts:profile-publish' pk=user.username %}" class="logo">
+                <img width="30px" src="{%if user.avatar%}{{ user.avatar.url }}{%else%}{% static 'images/mycamlogo.png' %}{%endif%}" alt="">
+            </a>
+            <ul class="nav">             
+                {% if request.user.is_authenticated %}                
+                <li class="nav-item">
+                    <a href="{%url 'dashboard:dashboardview'%}" class="nav-link">ダッシュボード</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <img width="30px" src="{%if request.user.avatar%}{{request.user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="user-image" class="rounded-circle">
+                        
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <!-- item-->
+                        <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
+                            <i class="ri-account-circle-line"></i>
+                            <span>プロフィール</span>
                         </a>
-                    </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="dropdown notification-list">
-                        <a href="{% url 'dashboard:homeview'%}" class="nav-link right-bar-toggle waves-effect waves-light">
-                            ホーム
+
+                        <!-- item-->
+                        <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
+                            <i class="ri-settings-3-line"></i>
+                            <span>設定</span>
                         </a>
-                    </li>
-                    <li class="dropdown notification-list">
-                        <a href="{% url 'dashboard:dashboardview'%}" class="nav-link right-bar-toggle waves-effect waves-light">
-                            ダッシュボード
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- item-->
+                        <a href="{% url 'accounts:account_logout'%}" class="dropdown-item notify-item">
+                            <i class="ri-logout-box-line"></i>
+                            <span>ログアウト</span>
                         </a>
-                    </li>
-                    <li class="dropdown notification-list topbar-dropdown">
-                        <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <i class="fe-bell noti-icon"></i>
-                            <span class="badge badge-danger rounded-circle noti-icon-badge"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-                            
-                            <!-- item-->
-                            <div class="dropdown-item noti-title">
-                                <h5 class="m-0">
-                                    <span class="float-right">
-                                        {% comment %} <a href="" class="text-dark">
-                                            <small>削除</small>
-                                        </a> {% endcomment %}
-                                    </span>通知
-                                </h5>
-                            </div>
 
-                            <div class="noti-scroll" data-simplebar>
-                                
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                    <div class="notify-icon bg-soft-primary text-primary">
-                                        <i class="mdi mdi-comment-account-outline"></i>
-                                    </div>
-                                    <p class="notify-details">
-                                        <small class="text-muted"></small>
-                                    </p>
-                                </a>
-                                
-                            </div>
-
-                            <!-- All-->
-                            <a href="#" class="dropdown-item text-center text-primary notify-item notify-all">
-                                全体を見る
-                                <i class="fe-arrow-right"></i>
-                            </a>
-
-                        </div>
-                    </li>
-                    {%else%}
-                    <li class="dropdown notification-list">
-                        <a href="{% url 'accounts:login'%}" class="nav-link right-bar-toggle waves-effect waves-light">
-                            ログイン
-                        </a>
-                    </li>
-                    <li class="dropdown notification-list">
-                        <a href="{% url 'accounts:signup'%}" class="nav-link right-bar-toggle waves-effect waves-light">
-                            無料登録
-                        </a>
-                    </li>
-                    {%endif%}
-                    <li class="dropdown notification-list topbar-dropdown">
-                        {% if request.user.is_authenticated %}
-                        <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="{%if request.user.avatar%}{{request.user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="user-image" class="rounded-circle">
-                            
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                            <!-- item-->
-                            <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
-                                <i class="ri-account-circle-line"></i>
-                                <span>プロフィール</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
-                                <i class="ri-settings-3-line"></i>
-                                <span>設定</span>
-                            </a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <!-- item-->
-                            <a href="{% url 'accounts:account_logout'%}" class="dropdown-item notify-item">
-                                <i class="ri-logout-box-line"></i>
-                                <span>ログアウト</span>
-                            </a>
-
-                        </div>
-                        {% endif %}
-                    </li>
-                </ul>                         
+                    </div>
+                </li>                
+                {% endif %}   
+            </ul>
+            <div class="mob-menu">
+                <img src="{% static 'images/mob-menu.svg' %}" alt="">
             </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-            {% if messages %}
-            <div class="messages">                
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" id="close" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                {% endfor %}                
-            </div>
-            {% endif %}
-            {% block content %}
-            {% endblock content %}
-            <!-- End Page content -->
-            
-            
-            <!-- end Topbar -->
         </div>
-        </div>        
-    </div>
+    </header>
     
-    <script type="text/javascript" src="{% static 'js/vendor.min.js' %}"></script>    
-    <script type="text/javascript" src="{% static 'js/pages/jquery.todo.js' %}"></script> 
-    <script type="text/javascript" src="{% static 'js/app.min.js' %}"></script>
+    {% block content %}
+    {% endblock content %}
     {% block scripts %}
+    
     {% endblock %}
     {% block extra_js %}
     {% endblock %}
     {% csrf_token %}
     <script>
-        
-        $('document').ready(function(){
-    
-        })      
         
     </script>
     

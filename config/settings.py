@@ -119,6 +119,7 @@ EMAIL_FROM = "hello@medicine.com"
 NAME_FROM = "Hello"
 EMAIL_USE_TLS = True
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1024000000
 
 if ENVIRONMENT == 'local':
     # Static files (CSS, JavaScript, Images)
@@ -131,8 +132,8 @@ if ENVIRONMENT == 'local':
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
     BACKEND_URL="http://127.0.0.1:8000"
-    HOST_NAME = 'http://localhost:8000'
-    FRONT_END_URL = "http://localhost:8000"
+    HOST_NAME = 'http://127.0.0.1:8000'
+    FRONT_END_URL = "http://127.0.0.1:8000"
     
     PRODUCTION = False
     DEBUG = True
@@ -146,13 +147,17 @@ if ENVIRONMENT == 'local':
     }    
     
     SENDGRID_API_KEY=config('SENDGRID_API_KEY')
-    bearer_token = config('BEARER_TOKEN')
-    api_key = config('TWITTER_API_KEY')
-    api_secret = config('TWITTER_API_SECRET')
+    BEARER_TOKEN = config('BEARER_TOKEN')
+    API_KEY = config('TWITTER_API_KEY')
+    API_SECRET = config('TWITTER_API_SECRET')
     client_id = config('TWITTER_CLIENT_ID')
     client_secret = config('TWITTER_CLIENT_SECRET')
     oauth_callback_url = config('TWITTER_OAUTH_CALLBACK_URL')
-
+    
+    STRIPE_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
+    STRIPE_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY')
+    STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
+    STRIPE_PRICE_ID = config('STRIPE_PRICE_ID')
 
 if ENVIRONMENT == 'production':
     PRODUCTION = True
@@ -200,15 +205,18 @@ if ENVIRONMENT == 'production':
             'STATIC_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
         MEDIA_URL = os.environ.get(
             'MEDIA_URL', default=f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/')
-        HOST_NAME = 'http://localhost:8000'
-        BACKEND_URL="http://localhost:8000"
-        FRONT_END_URL = "http://localhost:8000"
+        HOST_NAME = 'http://127.0.0.1:8000'
+        BACKEND_URL="http://127.0.0.1:8000"
+        FRONT_END_URL = "http://127.0.0.1:8000"
            
     
     SENDGRID_API_KEY=os.environ.get('SENDGRID_API_KEY')
-    bearer_token = os.environ['BEARER_TOKEN']
-    api_key = os.environ['TWITTER_API_KEY']
-    api_secret = os.environ['TWITTER_API_SECRET']
+    BEARER_TOKEN = os.environ['BEARER_TOKEN']
+    API_KEY = os.environ['TWITTER_API_KEY']
+    API_SECRET = os.environ['TWITTER_API_SECRET']
     client_id = os.environ['TWITTER_CLIENT_ID']
     client_secret = os.environ['TWITTER_CLIENT_SECRET']
     oauth_callback_url = os.environ['TWITTER_OAUTH_CALLBACK_URL']
+
+    STRIPE_PUBLIC_KEY = os.environ['STRIPE_LIVE_PUBLIC_KEY']
+    STRIPE_SECRET_KEY = os.environ['STRIPE_LIVE_SECRET_KEY']

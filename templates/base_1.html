@@ -1,0 +1,138 @@
+{% load static %}
+{% load notification_template %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" data="text/plain">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>FindMycampaign</title>
+    {% block extra_head %}
+    {% endblock %}
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'images/logo_mark.png'%}">
+    <!-- App css -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="{% static 'css/style2.css' %}" rel="stylesheet">
+    
+</head>
+
+<body class="">
+    <!-- header starts -->
+    <header>
+        <div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
+            <a href="/" class="logo">
+                <img src="{% static 'images/mycamlogo.png' %}" alt="">
+            </a>
+            <ul class="nav">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">問い合わせ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/home/" class="nav-link">詳細を見る</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'dashboard:dashboardview'%}" class="nav-link">ダッシュボード</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <img width="30px" src="{%if request.user.avatar%}{{request.user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="user-image" class="rounded-circle">
+                        
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <!-- item-->
+                        <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
+                            <i class="ri-account-circle-line"></i>
+                            <span>プロフィール</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="{% url 'accounts:profile'%}" class="dropdown-item notify-item">
+                            <i class="ri-settings-3-line"></i>
+                            <span>設定</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- item-->
+                        <a href="{% url 'accounts:account_logout'%}" class="dropdown-item notify-item">
+                            <i class="ri-logout-box-line"></i>
+                            <span>ログアウト</span>
+                        </a>
+
+                    </div>
+                </li>
+                {%else%}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">問い合わせ</a>
+                </li>                
+                <li class="nav-item">
+                    <a href="{%url 'accounts:login'%}" class="nav-link">ログインする</a>
+                </li>
+                {% endif %}
+            </ul>
+            <div class="mob-menu">
+                <img src="{% static 'images/mob-menu.svg' %}" alt="">
+            </div>
+        </div>
+    </header>
+    
+    {% block content %}
+    {% endblock content %}
+
+    <!-- Footer starts -->
+    <footer>
+        <div class="container">
+            <div class="row border-bottom py-5">
+                <div class="col-xs-12 col-md-6">
+                    <a href="/" >
+                    <img src="{% static 'images/mycamlogo.png' %}" alt="">
+                    </a>
+                </div>
+                <div class="col-xs-12 col-md-6 d-flex justify-content-md-end justify-content-xl-start">
+                    <ul class="nav s-mt-2">
+                        <li class="nav-item">
+                            <a href="https://facebook.com/" class="nav-link">
+                                <img src="{% static 'images/fb.svg'%}" alt="">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://twitter.com/" class="nav-link">
+                                <img src="{% static 'images/twitter1.png'%}" alt="">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.linkedin.com/" class="nav-link">
+                                <img src="{% static 'images/linkedin.svg'%}" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="nav footer-menu py-3">
+                <li class="nav-item"><a href="#" class="nav-link">運営会社</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">採用情報</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">お知らせ</a></li>
+                <li class="nav-item"><a href="/legal/" class="nav-link">特定商取引に基づく表記</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script type="text/javascript" src="{% static 'js/vendor.min.js' %}"></script>    
+    <script type="text/javascript" src="{% static 'js/pages/jquery.todo.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    
+    {% block extra_js %}
+    {% endblock %}
+    {% csrf_token %}
+    <script>
+        
+    </script>
+    
+</body>
+</html>

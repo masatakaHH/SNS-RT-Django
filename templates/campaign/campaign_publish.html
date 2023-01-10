@@ -1,0 +1,226 @@
+{% extends "base_lp.html" %}
+{% load sys_template %}
+{% load static %}
+{% block content %}      
+<div class="container">
+    <div class="campaign-container">
+
+        <div class="campaign">
+            <div class="card d-flex align-items-center justify-content-center flex-column">
+                <div class="campaign-image-wrapper">
+                    <img src="{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}" alt="" class="campaign-image">
+                </div>
+                <a href="{%url 'accounts:profile-publish' pk=user.username %}" class="owner d-flex align-items-center justify-content-center py-2">
+                    <img src="{%if user.profile.owner_name%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="owner-icon">
+                    <div class="owner-brand">{%if user.profile.owner_name%}{{user.profile.owner_name}}{%else%}未登録{%endif%}</div>
+                </a>
+                <div class="period text-center py-2">
+                    {{campaign.sdate}}~{{campaign.edate}}まで
+                </div>
+                {%with campaign|get_action_by_campaign as campaignactions%}
+                {%if campaignactions %}
+                <h4><img src="{%static 'images/twitter1.png'%}" alt="" width="30" height="30" class="sns-icon">  {{campaignactions.action_name}}が必要です</h4>
+                {%if campaignactions.action_name.name == 'リツイート' %}
+                <a href="{{campaignactions.retweet_url}}" target="_blank">
+                    <span class="content-wrapper">{{campaignactions.action_name}}</span>
+                </a>
+                {%elif campaignactions.action_name.name == 'フォロー' %}
+                <a href="https://twitter.com/{{campaignactions.screen_name}}" target="_blank">
+                    <span class="content-wrapper">@{{campaignactions.screen_name}}{{campaignactions.action_name}}</span>
+                </a>
+                {%endif%}
+                {%if applied %}
+                <button type="button" class="entry-btn" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}" disabled>
+                    <span class="content-wrapper">
+                        応募した
+                    </span>
+                </button>
+                {%else%}
+                <button type="button" class="entry-btn" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}">
+                    <span class="content-wrapper">
+                        応募する
+                    </span>
+                </button>
+                {%endif%}
+                {%endif%}
+                {%endwith%}
+                <div class="tos text-center fs-10 my-4">
+                    上のボタンをタップすると、<a href="/legal/">利用規約</a>・<a href="/legal/">プライバシーポリシー</a>・キャンペーン規約に同意したことになります。
+                </div>
+                <div class="login-bar-wrapper">
+                    <div class="login-bar d-flex justify-content-center align-items-center">
+                        {% if request.user.is_authenticated %}
+                        <div class="login-title mr-1"><span>{{request.user.username}}</span></div>
+                        <div class="login-methods">
+                            <div class="login-method">                                
+                                <img src="{%static 'images/twitter1.png'%}" class="ml-1">                               
+                            </div>
+                        </div>
+                        {%else%}                        
+                        <div class="login-methods">
+                            <div class="login-method">
+                                <a href="{%url 'accounts:twitter_login'%}" class="unauth">ログイン
+                                    <img src="{%static 'images/twitter1.png'%}" class="ml-1">
+                                </a>
+                            </div>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="campaign-term">
+            <div class="term-trigger text-center py-2 fs-16 fw-bold">キャンペーン規約</div>
+            <div id="terms-wrapper">
+                <p>本キャンペーン (以下、「キャンペーン」といいます。)への応募を希望される方は、この応募規約(以下、「本規約」といいます。)をお読みの上、同意された場合に応募ください。なお、キャンペーンに応募された方は、本規約に同意したものとみなします。
+                    [応募資格]
+                    ・日本国内在住の方
+                    ・15歳未満のお客様は、保護者の同意を得るか保護者と一緒に規約をお読みの上、規約に同意ください。15歳未満のお客様からの同意は、すべて保護者の同意を得たものとみなします。
+                    [応募方法]
+                    ・キャンペーンに付随するアクションを実行し、エントリーすること。
+                    [抽選・結果発表]
+                    ・抽選の上、当選者が決定されます。
+                    ・当選者には、サイト上の当選ボックスにデジタルギフトが発送されます。
+                    ・当選ギフトが賞品の場合、主催者から賞品が発送されます（当選者は期限までにお届け先を入力する必要あり）。
+                    ・発送日程等のご希望にはお答えできません。
+                    [賞品について]
+                    ・賞品の種別等は選ぶことはできません。
+                    ・賞品の変更はできません。
+                    [応募・当選の無効］
+                    以下の事項に該当するアカウントの応募は、無効とさせていただく場合があります。
+                    ・自動プログラムを利用しての応募
+                    ・複数のアカウントからの応募
+                    ・第三者のメールアドレス、名前、アカウント情報、その他の個人情報等を不正に利用した応募
+                    [禁止事項]
+                    ・本規約に違反する行為
+                    ・キャンペーンの運営を妨げる行為
+                    ・キャンペーンに関する情報・投稿内容・データ等を商用利用する行為
+                    ・著作権、知的財産権、肖像権を侵害する行為
+                    ・その他、主催者が不適切だと判断した行為
+                    [免責]
+                    以下のキャンペーンに関連して生じた応募者の損害については、一切の責任を負わないものとします。
+                    ・ソフトウェア、ハードウェア上の事故、火災、停電、地震、通信環境の悪化による事象
+                    ・第三者によるサービスの妨害、情報改変などによりサービスが中断及び遅延し、欠陥が生じた場合
+                    ・Amazon、Facebook・Meta・Instagram・LINE・TikTok・Twitter・YouTube等の外部サービスの運用停止、中断、その他の不具合が発生した場合
+                    ・キャンペーンからリンクしている他のウェブサイト、サービスによる不具合
+                    ・応募者間または応募者と第三者の間におけるトラブル
+                    [個人情報の取扱いについて]
+                    個人情報等は、別途定めるプライバシーポリシーに従い適切に取扱うものとします。
+                    ・ご登録いただいた情報は、賞品の発送の為に利用いたします。
+                    ・応募者の同意なしに、キャンペーン主催者以外の第三者に開示、提供することはありません。
+                    [その他]
+                    ・当キャンペーンは、Amazon、Facebook・Meta・Instagram・LINE・TikTok・Twitter・YouTubeとは一切関係ありません。
+                    ・Amazon、Amazon.co.jpおよびそれらのロゴはAmazon.com, Inc. またはその関連会社の商標です。
+                    ・必要と判断した場合には、事前に予告することなく、規約が変更される場合があります。
+                    ・キャンペーンは、事前に予告することなく内容の変更がされる場合があります。
+                    ・キャンペーンは、事前に通知することなく、終了・中止する場合があります。
+                    ・応募に関わる通信料及び接続費などの諸経費は、応募される方の負担となります。
+                    ・機種、OS、ブラウザ等の理由により、一部のPC、スマートフォン、タブレット等で、応募できない場合もございます。
+                    ・Amazon、Facebook・Meta・Instagram・LINE・TikTok・Twitter・YouTube等の外部サービスのご利用方法については、各サービスにお問い合わせください。
+                    
+                    [キャンペーン主催]
+                    株式会社ショクブン
+                    
+                    info@shokubun.shop</p>
+                    <button class="terms-close-btn">閉じる</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script type="text/javascript">
+    const selectorAll = e =>  document.querySelectorAll( e);
+    const selector = e => document.querySelector(e);
+
+    const termTriggerBtn = selector('.term-trigger');
+    const termCloseBtn = selector('.terms-close-btn');
+
+    const tl = gsap.timeline();
+
+    termTriggerBtn.addEventListener("click", function(){
+        
+        tl
+        .to( "#terms-wrapper", {
+            opacity: 1,
+            height: "auto",
+            duration: 0.3,
+            display: "block"
+        } )
+        .to("#terms-wrapper p",{
+            opacity: 1,
+            height: "auto",
+            duration: 0.3,
+            display: "block"
+        })
+        .to(termCloseBtn, {
+            opacity: 1,
+            height: "auto",
+            duration: 0.3,
+            display: "block"
+        })
+
+        
+    })
+
+    termCloseBtn.addEventListener( "click", function(){
+        tl
+        .to( "#terms-wrapper", {
+            opacity: 0,
+            height: 0,
+            duration: 0.3,
+            display: "none"
+        } )
+        .to("#terms-wrapper p",{
+            opacity: 0,
+            height: 0,
+            duration: 0.3,
+            display: "none"
+        })
+        .to(termCloseBtn, {
+            opacity: 0,
+            height: 0,
+            duration: 0.3,
+            display: "none"
+        })
+    } )
+
+</script>
+<script type="text/javascript" src="{% static 'js/vendor.min.js' %}"></script>    
+<script type="text/javascript" src="{% static 'js/pages/jquery.todo.js' %}"></script>
+<script type="text/javascript">
+    let applicant = button =>{
+        var campaign_id = button.getAttribute('data-id');
+        var campaign_action = button.getAttribute('data-action');
+        console.log(campaign_id); 
+        if(campaign_id == ''){
+            alert("キャンペーンが存在しません！")
+        }else{
+            $.ajax({
+                url : '{% url 'dashboard:applicant' %}',
+                data:{
+                    campaign_id: campaign_id,   
+                    campaign_action:campaign_action,                 
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                type:'POST',
+                success:function(data){
+                    console.log(data.status);         
+                    //window.location.replace("/campaign/"+campaign_id+'/');
+                    if(data.status=='login'){
+                        window.location.replace("/accounts/twitter_login/?next=/applicant/?campaign_id="+campaign_id);
+                    }else if(data.status=='twitter'){
+                        console.log(data.status);
+                        window.location.replace("/accounts/twitter_login/?next=/applicant/?campaign_id="+campaign_id);
+                    }
+                }
+            });
+        }
+    }
+</script>  
+{% endblock %}

@@ -58,19 +58,21 @@
                             <div class="tab-pane" id="basictab1">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-3 col-form-label" for="userName">タイトル</label>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control" id="basic_title" name="basic_title" required>
+                                        <form class="needs-validation was-validated">
+                                            {% csrf_token %}
+                                            <div class="form-group row mb-3">
+                                                <label class="col-md-3 col-form-label" for="userName">タイトル<span class="required-mark">必須</span></label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="basic_title" name="basic_title" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-3 col-form-label" for="password"> 詳細</label>
-                                            <div class="col-md-9">
-                                                <textarea class="form-control" id="basic_context" name="basic_context"></textarea>
+                                            <div class="form-group row mb-3">
+                                                <label class="col-md-3 col-form-label" for="password">詳細</label>
+                                                <div class="col-md-9">
+                                                    <textarea class="form-control" id="basic_context" name="basic_context" required></textarea>
+                                                </div>
                                             </div>
-                                        </div>
-                                        
+                                        </form>
                                         
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
@@ -81,65 +83,55 @@
                                     <div class="col-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="header-title">クリエイティブ</h4>
+                                                <h4 class="header-title">クリエイティブ<span class="required-mark">必須</span></h4>
                                                 <ul class="sub-header">
                                                     <li>画像を複数枚設定（プランによって枚数は異なる）できます。</li>
                                                     <li>画像(JPEG/GIF/PNG)、またはYoutube形式のファイルを設定してください。</li>
                                                     <li>メイン画像はキャンペーンのOGPにも設定されます。キャンペーン内容やギフトがわかりやすい画像を設定しましょう。</li>
-                                                </ul>                                        
-                                                <form action="/" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"
-                                                data-upload-preview-template="#uploadPreviewTemplate">
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" multiple />
+                                                </ul>
+                                                <div class="creative-images">
+                                                    <h4 class="header-title">キャンペーンクリエイティブ</h4>
+                                                    <div class="creative-image">
+                                                        <div class="image-cropper image-cropper-row">
+                                                            <fieldset class="image-input-fieldset">
+                                                                <label class="image" style="border-radius: 14px; width: 100%;">
+                                                                    <input name="file" type="file" id="creative_img" multiple accept="image/*"/>
+                                                                    <img src="" class="img-fluid img-preview" id="creative_img_preview" style="border-radius: 14px; width: 100%;">
+                                                                    <div class="no-image" id="creative-no-image">
+                                                                        <div class="wrapper" style="border-radius: 14px; width: 100%; padding-top: 53%;">
+                                                                            <div class="inner">
+                                                                                <img src="https://storage.googleapis.com/booster-jp/img/icons/upload-texture.svg">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                                <div class="parts">                                                                    
+                                                                    <div class="recommend">
+                                                                        <small>推奨サイズ: 縦630px 横1200px<br>
+                                                                            推奨比率 : 縦21 横40
+                                                                        </small>
+                                                                    </div>                                                                    
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
                                                     </div>
-
-                                                    <div class="dz-message needsclick">
-                                                        <i class="h1 text-muted ri-upload-cloud-2-line"></i>
-                                                        <h3>アップロード</h3>
-                                                        <span class="text-muted font-13">推奨サイズ: 縦630px 横1200px<br>
-                                                            推奨比率 : 縦21 横40</span>
-                                                    </div>
-                                                </form>
-                                                <!-- Preview -->
-                                                <div class="dropzone-previews mt-3" id="file-previews"></div>
+                                                </div>                                                
                                             </div>                                           
                                         </div>
                                         
                                     </div> <!-- end col -->
-                                </div> <!-- end row -->
-                                <!-- file preview template -->
-                                <div class="d-none" id="uploadPreviewTemplate">
-                                    <div class="card mt-1 mb-0 shadow-none border">
-                                        <div class="p-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
-                                                </div>
-                                                <div class="col pl-0">
-                                                    <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
-                                                    <p class="mb-0" data-dz-size></p>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <!-- Button -->
-                                                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                                                        <i class="fe-x"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> <!-- end row -->                                
                             </div>
 
                             <div class="tab-pane" id="basictab3">
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-3">
                                         <div class="mb-3">
                                             <div class="form-group">
                                                 <label for="publish_date">公開日時</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="text" class="form-control" name="publish_date" id="publish_date">
-                                                    <input type="time" name="publish_date_time" id="publish_date_time">
+                                                    <input type="time" name="publish_date_time" value="12:00" id="publish_date_time">
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +141,7 @@
                                                 <label for="end_date">終了日時</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="text" class="form-control" name="end_date" id="end_date">
-                                                    <input type="time" name="end_date_time" id="end_date_time">  
+                                                    <input type="time" name="end_date_time" value="12:00" id="end_date_time">  
                                                 </div>                                                  
                                             </div>
                                         </div>                                            
@@ -163,25 +155,57 @@
                                         <h3 class="mt-0">アクション</h3>
                                         <p>キャンペーンの参加条件を設定してください<br>設定したアクションをクリアしたユーザーが応募できます</p>
                                         <div class="mb-3">
-                                            <ul class="action-list">                                                
+                                            <ul class="actions-pool" id="action-list">                                                
                                                 
                                             </ul>
                                         </div>
-                                        <h3 class="mt-0">アクション一覧</h3>
+                                        <h3 class="mb-3">アクション一覧</h3>
                                         <div class="mb-3">
-                                            <ul class="actions-list mb-3">
+                                            <ul class="actions-pool">
                                                 {% for obj in twitter_actions %}
                                                 <li>
-                                                    <div class="action-item d-flex justify-content-between">
-                                                        <div class="action-icon" style="background-color: rgb(29, 161, 242);">
+                                                    <div class="action-item">
+                                                        <div class="action-icon">
                                                             <img src="{% static 'images/twitter.png'%}">
                                                         </div>
                                                         <div class="action-label-description">
                                                             <input type="hidden" value="{{obj.id}}" id="twitter_action_id">
                                                             <span class="action-label">{{obj.name}}</span>
-                                                            <span class="action-description">対象のTwitterアカウントをフォローさせる</span>
+                                                            <span class="action-description">{{obj.description}}</span>
                                                         </div>
-                                                        <button type="button" data-id="{{obj.id}}" class="btn btn-action-add btn-light" id="action_add" onclick="action_add(this);">追加</button>
+                                                        <button type="button" data-toggle="modal" data-target="#action_add_{{obj.id}}"  class="btn btn-action-add btn-light">追加</button>
+                                                        <!-- Modal -->
+                                                        <div id="action_add_{{obj.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="action_addModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">{{obj.name}}</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                    </div>
+                                                                    <div class="modal-body">                                                                                                                                  
+                                                                        <div class="form-group">
+                                                                            {%if obj.action_id == 1 %}
+                                                                            <label class="col-md-6 col-form-label" for="action_target">Twitterユーザ名</label>
+                                                                            <input type="text" name="action_target" id="action_target" class="form-control">
+                                                                            <small>＠がついているユーザー名を入力してください。</small>
+                                                                            {%else%}
+                                                                            <label class="col-md-6 col-form-label" for="action_target">ツイートURL</label>
+                                                                            <input type="URL" name="action_target" id="action_target" class="form-control">
+                                                                            <small>既に投稿済みのツイートURLを入力してください。キャンペーンツイートの予約投稿機能を利用したい場合は、もう一つの「リツイート（予約投稿）」か「フォロー＆リツイート（予約投稿）」を選んでください。</small>
+                                                                            {%endif%}
+                                                                        </div>                                                                        
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-6 col-form-label" for="action_entry">エントリー数</label>
+                                                                            <input type="number" name="action_entry" id="action_entry" class="form-control" value="1">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary" data-id="{{obj.action_id}}" data-name="{{obj.name}}" onclick="action_add(this);" >決定</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        <!-- Modal -->
                                                     </div>
                                                 </li>
                                                 {%endfor%}
@@ -217,11 +241,13 @@
                                                         <div class="modal-body">
                                                             <h5 class="mt-0">デジタル</h5>
                                                             <div class="form-group">                                                                    
-                                                                <input type="file" name="giftimg" id="giftimg" class="form-control" accept="image/*">
+                                                                <input type="file" name="giftimg" id="giftimg" class="" accept="image/*">
+                                                                <div>
                                                                 <small>推奨サイズ: 縦450px 横</small>
                                                                 <small>450px</small>
                                                                 <small>推奨比率 : 縦1 横1</small>
-                                                                <img id="imgpreview" src=""/>   
+                                                                </div>
+                                                                <img id="giftimg_preview" src=""/>   
                                                             </div>    
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gitftname">ギフト名</label>
@@ -244,11 +270,17 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gift_effect_start_date">有効期間/開始(任意)</label>
+                                                                <div class="d-flex">
                                                                 <input type="text" class="form-control" name="gift_effect_start_date" id="gift_effect_start_date">
+                                                                <input type="time" name="end_date_time" value="12:00" id="gift_effect_start_date_time">
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gift_effect_end_date">有効期間/終了(任意)</label>
+                                                                <div class="d-flex">
                                                                 <input type="text" class="form-control" name="gift_effect_end_date" id="gift_effect_end_date">
+                                                                <input type="time" name="end_date_time" value="12:00" id="gift_effect_end_date_time">
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gift_detail_url">詳細URL(任意)</label>
@@ -256,7 +288,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gift_price">ギフト金額(任意)</label>
-                                                                <input type="number" class="form-control" name="gift_price" id="gift_price" placeholder="1000">
+                                                                <input type="number" class="form-control" name="gift_price" id="gift_price" placeholder="1000" value="0">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-md-6 col-form-label" for="gift_userterm">利用条件(任意)</label>
@@ -272,16 +304,39 @@
                                             <!-- Modal -->
                                             </hr>
                                             {% if casttype == '1'%}
-                                            <div class="gift-instant-win">
+                                            <div class="col-6 gift-instant-win">
                                                 <h3 class="mt-0">インスタントウィン設定</h3>
                                                 <div class="form-group">
                                                     <label>1回の抽選に必要なエントリー数</label>
                                                     <input type="hidden" class="form-control" id="casttype" name="casttype" value="{{casttype}}">
-                                                    <input type="number" id="instant-draw-value" class="form-control is-valid" required>
-                                                </div>
-                                                <div class="form-group">
+                                                    <input type="number" id="instant-draw-value" class="form-control is-valid" value="1" required>
+                                                </div>                                                
+                                                <div class="creative-images">
                                                     <label>はずれ画像（任意）</label>
-                                                    <input type="file" id="instant_draw_lose_image" class="form-control" accept="image/*">
+                                                    <div class="creative-image">
+                                                        <div class="image-cropper image-cropper-row">
+                                                            <fieldset class="image-input-fieldset">
+                                                                <label class="image" style="border-radius: 14px; width: 100%;">
+                                                                    <input name="file" type="file" id="instant_draw_lose_image" accept="image/*"/>
+                                                                    <img src="" class="img-fluid img-preview" id="instant_draw_lose_image_preview" style="border-radius: 14px; width: 100%;">
+                                                                    <div class="no-image" id="instance-no-image">
+                                                                        <div class="wrapper" style="border-radius: 14px; width: 100%; padding-top: 53%;">
+                                                                            <div class="inner">
+                                                                                <img src="https://storage.googleapis.com/booster-jp/img/icons/upload-texture.svg">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                                <div class="parts">                                                                    
+                                                                    <div class="recommend">
+                                                                        <small>推奨サイズ: 縦630px 横1200px<br>
+                                                                            推奨比率 : 縦21 横40
+                                                                        </small>
+                                                                    </div>                                                                    
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             {%endif%}
@@ -312,6 +367,10 @@
 
 {% endblock content %}
 {% block scripts %}
+<!-- Plugin js-->
+<script src="{% static 'libs/parsleyjs/parsley.min.js' %}"></script>
+<!-- Validation init js-->
+<script src="{% static 'js/pages/form-validation.init.js '%}"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
 <!-- DatePicker関係 -->
 <script src="{% static 'js/jquery-ui.min-1.13.2.js' %}"></script>
@@ -392,7 +451,29 @@
 </script>
     
 <script>
-    let creative_add = button =>{
+    var creative_image_file = '';  //クリエイティブ画像ファイル
+    var action_list = [];  //Twitterアクションリスト
+
+    function addcreativeImage(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(e) {            
+            $('#creative_img_preview').attr('src', e.target.result);
+            $("#creative-no-image").css('display','none');
+          }
+          
+          reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+    if(document.getElementById("creative_img")) {
+        document.getElementById("creative_img").addEventListener('change',function() {
+            var $this = this;
+            creative_image_file = this.files[0];
+            addcreativeImage($this)
+        },false);
+    }
+    /*let creative_add = button =>{
         var creative_add = button.getAttribute('data-id');
         let html = `
         <li>
@@ -402,33 +483,88 @@
         </li>
         `
         $('.creative-list').append(html);
-    }
+    }*/
+
+
     let action_add = button => {
+        
         var action_id = button.getAttribute('data-id');
+        var action_name = button.getAttribute('data-name');
+        const modal_div = button.parentElement.parentElement;
+        var action_target = modal_div.querySelector("#action_target").value;
+        var action_entry = modal_div.querySelector("#action_entry").value;
+
+        var action_data = {
+            'action_id': action_id,
+            'action_target':action_target,
+            'action_entry':action_entry
+        };
+        action_list.push(action_data);
+        console.log(action_list);
+
+        $('.modal').modal('hide');
         let html = `
         <li>
-            <div class="d-flex justify-content-between">
-                <div class="action-label">
-                    <div class="action-icon" style="background-color: rgb(29, 161, 242);">
-                        <img src="{% static 'images/twitter.png'%}">
-                    </div>
-                <span>フォロー</span>
-                <input type="hidden" value="${action_id}" id="twitter_action_id">
+            <div class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/twitter.png'%}">
                 </div>
+                <div class="action-label-description">
+                    <input type="hidden" value="${action_id}" id="twitter_action_id">
+                    <span class="action-label">${action_name}</span>
+                    <span class="action-description">${action_target}</span>               
+                </div>
+                <div class="action-tool-buttons">
+                    <button type="button" data-id="${action_id}" class="btn icon-btn" onclick="remove_action(this);"><i class="mdi mdi-delete-circle"></i></button>
+                </div>             
             </div>
         </li>
         `
-        $('.action-list').append(html);
+        $('#action-list').append(html);
         
+    }
+    
+    let remove_action = button => {
+        var action_id = button.getAttribute('data-id');
+        const action_item = button.parentElement.parentElement.parentElement;        
+        const index = action_list.findIndex(object => {
+            return object.action_id === action_id;
+        });
+        action_list.splice(index, 1);
+        action_item.remove();
+        console.log(action_list);
     }
 
     /// Gift Add //
-    var gift_data_set = '';
-    var global_gift_img_preview;
+    var gift_data_set = '';  //ギフトデータ
+    var global_gift_img_preview = '';   //画像プレビューのための変数
+    var instance_missing_img_file = '';  //はずれ画像ファイル
+    var gift_image_file = '';  //ギフト画像ファイル
+    console.log(gift_data_set);
+    function add_win_missing_Image(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(e) {            
+            $('#instant_draw_lose_image_preview').attr('src', e.target.result);
+            $("#instance-no-image").css('display','none');
+          }
+          
+          reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+    if(document.getElementById("instant_draw_lose_image")) {
+        document.getElementById("instant_draw_lose_image").addEventListener('change',function() {
+            var $this = this;
+            instance_missing_img_file = this.files[0];
+            add_win_missing_Image($this)
+        },false);
+    }
     giftimg.onchange = evt => {
-        const [file] = giftimg.files
+        const [file] = giftimg.files;
+        gift_image_file = giftimg.files[0];
         if (file) {
-            imgpreview.src = URL.createObjectURL(file);
+            giftimg_preview.src = URL.createObjectURL(file);
             global_gift_img_preview = URL.createObjectURL(file)
         }
     };
@@ -439,8 +575,11 @@
         var giftapplicant = $("#giftapplicant").val();
         var gift_receive_limit_date = $("#gift_receive_limit_date").val();
         var gift_effect_start_date = $("#gift_effect_start_date").val();
+        var gift_effect_start_date_time = $("#gift_effect_start_date_time").val();
         var gift_effect_end_date = $("#gift_effect_end_date").val();
+        var gift_effect_end_date_time = $("#gift_effect_end_date_time").val();
         var gift_detail_url = $("#gift_detail_url").val();
+        var gift_price = $("#gift_price").val();
         var gift_userterm = $("#gift_userterm").val();
         gift_data_set = {
             'gift_name' : gift_name,
@@ -448,8 +587,11 @@
             'giftapplicant': giftapplicant,
             'gift_receive_limit_date': gift_receive_limit_date,
             'gift_effect_start_date': gift_effect_start_date,
-            'gift_detail_url': gift_detail_url,
+            'gift_effect_start_date_time': gift_effect_start_date_time,
             'gift_effect_end_date': gift_effect_end_date,
+            'gift_effect_end_date_time': gift_effect_end_date_time,
+            'gift_detail_url': gift_detail_url,
+            'gift_price': gift_price,
             'gift_userterm': gift_userterm
         }        
         
@@ -471,8 +613,8 @@
                         </div>
                         <div class="right-bottom-right">
                             <div class="btns">
-                                <i class="fe-edit-1"></i>
-                                <i class="fe-delete"></i>
+                                <button type="button" data-toggle="modal" data-target="#multiple-two" class="btn icon-btn"><i class="mdi mdi-pencil-circle"></i></button>
+                                <button type="button" class="btn icon-btn" onclick="remove_gift(this);"><i class="mdi mdi-delete-circle"></i></button>
                             </div>
                         </div>
                     </div>
@@ -484,48 +626,80 @@
         $('.gift-card-group').html(html);
         
     }
+    let remove_gift = button => {
+        const html = `
+        <button type="button" data-toggle="modal" data-target="#multiple-two" class="btn btn-info gift-card-add">ギフトを追加</button>
+        `
+        //$(".gift-card").remove();
+        $('.gift-card-group').html(html);
+        gift_data_set = '';
+        //gift_item.remove();
+        console.log(gift_data_set);
+    }
 </script>
 
 <!-- キャンペーン保存 -->
 <script>
     let campaign_save = button => {
-        var basic_name = $("#basic_title").val();
+        var basic_name = $("#basic_title").val();        
         var casttype = "{{casttype}}";
-        var basic_context = $("#basic_context").val();
+        var basic_context = $("#basic_context").val();        
         var publish_date = $("#publish_date").val();
         var publish_date_time = $("#publish_date_time").val();
-        var end_date = $("#end_date").val();
+        var end_date = $("#end_date").val();               
         var end_date_time = $("#end_date_time").val();
 
-        var twitter_action_id = ''
+        var twitter_action_id = '';
         if($("#twitter_action_id").length){
             twitter_action_id = $("#twitter_action_id").val();
         }        
         var instant_draw_value = 0;
         if(casttype == '1'){
             instant_draw_value = $("#instant-draw-value").val();
-        }
+        }    
         
+        var formData = new FormData();
+        var csrftoken = "{{ csrf_token }}";        
+        formData.append('csrfmiddlewaretoken', csrftoken);
+        formData.append('casttype', casttype);
+        formData.append('basic_name', basic_name);
+        formData.append('basic_context', basic_context);
+        formData.append('publish_date', publish_date);
+        formData.append('publish_date_time', publish_date_time);
+        formData.append('end_date', end_date);
+        formData.append('end_date_time', end_date_time);
+        var json_action_list = JSON.stringify(action_list);
+        formData.append('action_list', json_action_list);
+        var json_gift_data_set = JSON.stringify(gift_data_set);
+        formData.append('gift_data_set', json_gift_data_set);        
+        formData.append('instant_draw_value', instant_draw_value);
+        if(creative_image_file != ''){
+            formData.append('creative_image_file', creative_image_file);
+        }
+        if(instance_missing_img_file != ''){
+            formData.append('instance_missing_img_file', instance_missing_img_file);
+        }
+        if(gift_image_file != ''){
+            formData.append('gift_image_file', gift_image_file);
+        }
+        console.log(formData);
+
         $.ajax({
             url : '{% url 'dashboard:campaign-create' %}',
-            data:{
-                casttype: casttype,
-                basic_name: basic_name,
-                basic_context: basic_context,
-                publish_date: publish_date,
-                publish_date_time: publish_date_time,
-                end_date: end_date,
-                end_date_time: end_date_time,
-                twitter_action_id: twitter_action_id,
-                gift_data_set: gift_data_set,
-                instant_draw_value: instant_draw_value,
-                csrfmiddlewaretoken: "{{ csrf_token }}"
-            },
+            data:formData,
             type:'POST',
-            success:function(data){
-                console.log(data);
-                //windows.location = "{% url 'dashboard:campaign-create'%}";
-                
+            contentType: false,
+            processData: false,
+            success:function(data){                
+                if(data.status == 'failed'){
+                    alert("終了日付入力が無効です。");
+                }else if(data.status == 'campaign_action'){
+                    alert("アクション追加でエラー発生！");
+                }
+                else{
+                    console.log(data.status);
+                    window.location.replace("/dashboard/");
+                }
             }
         });
 

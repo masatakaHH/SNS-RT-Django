@@ -1,19 +1,126 @@
-{% extends "base_lp.html" %}
+{% extends "base_1.html" %}
+{% load sys_template %}
 {% load static %}
 {% block content %}      
+<!-- Page header starts -->
 <div class="container-fluid">
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <h4 class="page-title">さあ、SNSキャンペーンをはじめよう。</h4>
-                
-            </div>
-        </div>
-    </div>     
-    <!-- end page title -->
-    
+    <div class="page-header-wrap overflow-hidden parent-floating pt-20">
+        
+    </div>
+</div>
 
-</div> <!-- container -->
+<!-- page starts -->
+<div class="container page-container page-booster">
+    
+    <div class="tap-bar d-flex align-items-center justify-content-center">
+        <a href="#" class="tab active open">参加中</a>
+        <a href="#" class="tab closed">終了</a>
+    </div>
+    <div class="campaigns d-grid gc-2 gap-4 ptb-6">
+        
+    </div>
+</div>
 
 {% endblock content %}
+{% block extra_js %}
+
+<script type="text/javascript">
+    const campaigns = document.querySelector('.campaigns');
+    const tabBtns = document.querySelectorAll('.tap-bar .tab');
+
+    const data = [];
+    {%for campaign in publish_campaigns %}
+        one_data = {
+            id: '{{campaign.id}}',
+            img: "{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}",
+            badge: "参加中",
+            everyone: '{{campaign|get_applicant_by_campaign}}',
+            myself: 0,
+            status: "open"
+        };
+        data.push(one_data);
+    {%endfor%}
+    {%for campaign in end_campaigns %}
+        one_data = {
+            id: '{{campaign.id}}',
+            img: "{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}",
+            badge: "終了",
+            everyone: 0,
+            myself: 0,
+            status: "closed"
+        };
+        data.push(one_data);
+    {%endfor%}
+    console.log(data);
+    let html ="";
+    let status = "open";
+    tabBtns.forEach( btn => {
+
+        btn.addEventListener( "click", function(e){
+            e.preventDefault();
+            
+            tabBtns.forEach( btn => btn.classList.remove('active') );
+
+            if( this.classList.contains('open') ){
+                status = "open";
+                this.classList.add('active');
+                html = '';
+                addData();
+            }
+            if( this.classList.contains("closed") ){
+                status = "closed";
+                this.classList.add('active');
+                html = '';
+                addData();
+            }
+
+        } )
+
+    } )
+
+    function addData(){
+        data.forEach( item => {
+            if( item.status === status ){
+                html += `<div class="campaign text-center">
+                                <a href="/campaign/${item.id}" class="campaign-item">
+                                    <img src="${item.img}" class="campaign-img">
+                                    <div class="campaign-status-badge-wrapper">
+                                        <div class="campaign-status-badge closed">${item.badge}</div>
+                                    </div>
+                                    <div class="item-body">
+                                        <div class="item-footer p-16">
+                                            <div class="campaign-number-status d-flex align-items-center justify-content-between">
+                                                    <div class="number-col">
+                                                        <div class="number ">
+                                                            <div class="fs-16 fw-bold">${item.myself}</div>
+                                                            <div class="label fs-12">自分</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="divider"></div>                           
+                                                    <div class="number-col">
+                                                        <div class="number">
+                                                            <div class="fs-16 fw-bold">${item.everyone}</div>
+                                                            <div class="label fs-12">みんな</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="divider"></div>
+                                                    <div class="number-col">
+                                                    <div class="number">
+                                                        <div class="end">終了</div>                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>`;
+            }
+        } )
+        
+        campaigns.innerHTML = html;
+    }
+
+    window.addEventListener( "load", addData );
+</script>
+
+{% endblock extra_js %}

@@ -6,9 +6,9 @@ import json
 
 class TwitterAPI:
     def __init__(self):
-        self.bearer_token = settings.bearer_token
-        self.api_key = settings.api_key
-        self.api_secret = settings.api_secret
+        self.bearer_token = settings.BEARER_TOKEN
+        self.api_key = settings.API_KEY
+        self.api_secret = settings.API_SECRET
         self.client_id = settings.client_id
         self.client_secret = settings.client_secret
         self.oauth_callback_url = settings.oauth_callback_url

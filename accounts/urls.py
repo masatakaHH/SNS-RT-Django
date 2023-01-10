@@ -7,9 +7,10 @@ app_name = 'accounts'
 
 urlpatterns = [
     ## Login設定
-    path('', views.UserDetailView.as_view(), name='profile-publish'),
+    #path('', views.UserDetailView.as_view(), name='profile-publish'),
+    path('<str:pk>', views.ProfilePublishView.as_view(), name='profile-publish'),
     path('login/', auth_views.LoginView.as_view(form_class=ProfiledAuthenticationForm, redirect_authenticated_user=True), name="login"),
-    path('logout', auth_views.LogoutView.as_view(), name='account_logout'),
+    path('logout/', views.logout_user, name='account_logout'),
     path('password-reset/',auth_views.PasswordResetView.as_view(form_class=PasswordResetFormUpdate,success_url=reverse_lazy('dashboard:password_reset_done')),name='password_reset'),
     path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
     path('password-reset/confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(success_url=reverse_lazy('dashboard:password_reset_complete')),name='password_reset_confirm'),
@@ -26,4 +27,15 @@ urlpatterns = [
     path('profile/password/', views.change_password, name='change_password'),
     path('profile/update_user_photo', views.update_user_photo, name='update_user_photo'),
         
+    ## クレジットカード
+    path('payment-card/', views.CardView.as_view(), name='payment-card'),
+    path('payment/', views.PlanView.as_view(), name='payment-pricing'),
+    path('payment-history/',views.payment_history,name='payment_history'), 
+    path('config/', views.stripe_config,name='config'),   
+    path('create-checkout-session/',views.create_checkout_session),
+    path('cancel-checkout-session/',views.cancel_checkout_session),
+    path('payment/success/', views.SuccessView.as_view()),
+    path('payment/cancelled/', views.CancelledView.as_view()),
+    path('payment/webhook/', views.stripe_webhook),
+    
 ]

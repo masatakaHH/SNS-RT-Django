@@ -1,0 +1,328 @@
+{% extends "base_1.html" %}
+{% load static %}
+{% block content %}      
+<!-- Hero section starts -->
+<section id="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <h1 class="hero--title title">そのキャンペーン、<br>
+                    格安で<br>
+                    自動化しませんか？</h2>
+                <p class="hero--subtitle">あなたの貴重な時間を<br>
+                    手動のキャンペーンに使い続けるのはもったいないです。<br>
+                    これからはマイキャンにお任せください。</p>
+                {% if request.user.is_authenticated %}
+                <a href="{%url 'dashboard:homeview'%}" class="btn c-blue">詳細を見る</a>                
+                <a href="{%url 'dashboard:dashboardview'%}" class="btn c-red">ダッシュボード</a>
+                {%else%}
+                <a href="{%url 'accounts:login'%}" class="btn c-red">ログイン</a>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <img class="hero-right-img" src="{%static 'images/hero-left-img.png'%}" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="what-is-mycam" class="bg-sky-left-gred scroll-in-right s-ml-1">
+    <div class="container box corner-left-round bg-sky s-ma-a">
+        <div class="row d-flex align-items-center">
+            <div class="col-xs-12 col-md-6 d-flex justify-content-center">
+                <img src="{% static 'images/LP_image2 1.png'%}" alt="">
+            </div>
+            <div class="col-xs-12 col-md-6 content">
+                <h2 class="title">マイキャンとは？</h2>
+                <p>フォロー&RT企画による資料配布は、昨今のSNSマーケティング施策においてとても優秀な結果を出しており、人気の施策の1つです。最近では数千RTまで伸びる企画ツイートも珍しくなく、
+                    そのまま数千フォロワーの獲得につながっているケースもあります。この施策の効果がジワジワと知れ渡った結果、
+                    導入・実践するアカウントがどんどん増えています。</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="follow-mycam" class="bg-sky-right-gred scroll-in-left s-mr-1">
+    <div class="container box corner-right-round bg-sky">
+        <div class="row d-flex align-items-center">
+            
+            <div class="col-xs-12 col-md-6 content">
+                <h2 class="title">「マイキャン」を使えばフォロー＆RT企画の</h2>
+                <h2 class="title">こんなお悩みから解放されます。</h2>
+                <p>応募者がフォローとRTをしているかを毎回確認するのが面倒
+                    「応募者全員にDMを送信...100通？1000通？？無理でしょ？」<br><Br>
+                    
+                    何十万、何百万円と予算のある大企業はキャンペーンツールを使い放題している現状。「我々にはそんな予算…」「手軽に使えるツールはないのか？」</p>
+            </div>
+
+            <div class="col-xs-12 col-md-6 d-flex justify-content-center">
+                <img src="{% static 'images/LP_image3 1.png'%}" alt="">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- feature starts -->
+
+<section id="feature">
+    <h1 class="title text-center from-bottom-to-top mb-4">「つくキャン」なら<br>
+        つくキャンの<strong>3</strong>っの特徴
+        <img src="images/Group 88.png" alt="" class="feature-floating-img">
+    </h1>
+    <div class="container">
+        <div class="row d-flex justify-content-between">
+            <div class="feature col-xs-12 col-md-4">
+                <h3 class="feature-count from-bottom-to-top">1</h3>
+                <img src="{% static 'images/LP_image_tokucho1 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <div class="feature-body">
+                    <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
+                    <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
+                </div>
+            </div>
+            <div class="feature col-xs-12 col-md-4">
+                <h3 class="feature-count from-bottom-to-top">2</h3>
+                <img src="{% static 'images/LP_image_tokucho2 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <div class="feature-body">
+                    <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
+                    <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
+                </div>
+            </div>
+            <div class="feature col-xs-12 col-md-4">
+                <h3 class="feature-count from-bottom-to-top">3</h3>
+                <img src="{% static 'images/LP_image_tokucho3 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <div class="feature-body">
+                    <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
+                    <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Price starts -->
+<section id="price">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-4 s-min-h-25">
+                <div class="container dafloating">
+                    <h2 class="title price-title">価格</h2>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-12 col-lg-8 bg-sky corner-left-round d-flex justify-content-end align-items-center boxes">
+                <div class="d-flex">
+                    <div class="price-box d-flex flex-column justify-content-between align-items-center">
+                        <div class="price-img">
+                            <img src="{% static 'images/box-search 1.png'%}" alt="">
+                        </div>
+                        <h3 class="price-box-title">価格計画</h3>
+                        <p class="price-box-details">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                        <button class="btn c-blue">詳細を確認する</button>
+                    </div>
+                    <div class="price-box d-flex flex-column justify-content-between align-items-center">
+                        <div class="price-img">
+                            <img src="{% static 'images/box-search 1.png'%}" alt="">
+                        </div>
+                        <h3 class="price-box-title">価格計画</h3>
+                        <p class="price-box-details">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                        <button class="btn c-blue">詳細を確認する</button>
+                    </div>
+                </div>
+                <img src="{% static 'images/Group 70.png'%}" alt="" class="floating-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Case Study starts -->
+<section id="case-study" class="s-ma-1">
+    <div class="container s-pa-2">
+        <h2 class="title text-center text-light mb-3">導入事例</h2>
+
+        <div class="video">
+            <iframe class="video-ifram" height="507" src="https://www.youtube.com/embed/JLuiUhOGk9I" title="Love and Peace | Full Show| Stand Up Comedy By Rajasekhar Mamidanna" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <img src="{% static 'images/Group 74.png'%}" alt="" class="floating-img">
+        </div>
+        
+    </div>
+</section>
+
+<!-- FAQs starts -->
+
+<section id="faq" class="ptb-8">
+    <div class="container">
+        <h1 class="title text-center">よくある質問</h1>
+        <div class="faqs">
+            <div class="faq d-flex align-items-center justify-content-between">
+                <div class="faq-body d-flex align-items-center">
+                    <h4 class="faq-body-count">Q1</h4>
+                    <p class="faq-body-title">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                </div>
+                <div class="faq-control">
+                    <img class="open" src="{% static 'images/open.png'%}" />
+                </div>
+                <p class="faq-details">
+                    SNSキャンペーンのためのオールインワンツール。Twitter、Instagram、LINE、YouTube、TikTokなどの主要なSNSに対応。
+                </p>
+            </div>
+            <div class="faq d-flex align-items-center justify-content-between">
+                <div class="faq-body d-flex align-items-center">
+                    <h4 class="faq-body-count">Q1</h4>
+                    <p class="faq-body-title">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                </div>
+                <div class="faq-control">
+                    <img class="open" src="{% static 'images/open.png'%}" />
+                </div>
+                <p class="faq-details">
+                    SNSキャンペーンのためのオールインワンツール。Twitter、Instagram、LINE、YouTube、TikTokなどの主要なSNSに対応。
+                </p>
+            </div>
+            <div class="faq d-flex align-items-center justify-content-between">
+                <div class="faq-body d-flex align-items-center">
+                    <h4 class="faq-body-count">Q1</h4>
+                    <p class="faq-body-title">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                </div>
+                <div class="faq-control">
+                    <img class="open" src="{% static 'images/open.png'%}" />
+                </div>
+                <p class="faq-details">
+                    SNSキャンペーンのためのオールインワンツール。Twitter、Instagram、LINE、YouTube、TikTokなどの主要なSNSに対応。
+                </p>
+            </div>
+            <div class="faq d-flex align-items-center justify-content-between">
+                <div class="faq-body d-flex align-items-center">
+                    <h4 class="faq-body-count">Q1</h4>
+                    <p class="faq-body-title">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                </div>
+                <div class="faq-control">
+                    <img class="open" src="{% static 'images/open.png'%}" />
+                </div>
+                <p class="faq-details">
+                    SNSキャンペーンのためのオールインワンツール。Twitter、Instagram、LINE、YouTube、TikTokなどの主要なSNSに対応。
+                </p>
+            </div>
+            <div class="faq d-flex align-items-center justify-content-between">
+                <div class="faq-body d-flex align-items-center">
+                    <h4 class="faq-body-count">Q1</h4>
+                    <p class="faq-body-title">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                </div>
+                <div class="faq-control">
+                    <img class="open" src="{% static 'images/open.png'%}" />
+                </div>
+                <p class="faq-details">
+                    SNSキャンペーンのためのオールインワンツール。Twitter、Instagram、LINE、YouTube、TikTokなどの主要なSNSに対応。
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block extra_js %}
+<script>
+const faqs = selectorAll( '.faq' );
+
+gsap.set( '.faq-details', {
+    opacity: 0,
+    height: 0
+} )
+
+faqs.forEach( faq => {
+    faq.addEventListener( "click", function(){
+        const details = faq.querySelector('.faq-details');
+        if(isOpen){
+            close(details)
+            faq.querySelector('img').style='transform: rotate(0deg)';
+        }else{
+            open(details)
+            faq.querySelector('img').style='transform: rotate(90deg)';
+        }
+    } )
+} )
+
+
+// Scroll triggers
+
+const heroTitle = selector('.hero--title');
+const heroSubTitle = selector('.hero--subtitle');
+
+const tl = gsap.timeline();
+gsap.registerPlugin('ScrollTrigger');
+
+tl
+    .from( heroTitle, {
+        duration: 0.8,
+        opacity: 0,
+        y: 200
+    } )
+    .from( heroSubTitle, {
+        duration: 0.8,
+        opacity: 0,
+        y: 200,
+        stagger: 1
+    } )
+    .from( '.btn', {
+        duration: 0.8,
+        opacity: 0,
+        y: 200
+    } )
+
+
+gsap.from('.hero-right-img', {
+    opacity: 0,
+    x: '100%',
+    duration: 0.8
+})
+
+gsap.from('.scroll-in-right', {
+    opacity: 0,
+    x: '100%',
+    duration: 0.8,
+    scrollTrigger: {
+        trigger: '.scroll-in-right',
+        start: "start center"
+    }
+})
+
+gsap.from('.scroll-in-left', {
+    opacity: 0,
+    x: '-100%',
+    duration: 0.8,
+    scrollTrigger: {
+        trigger: '.scroll-in-left',
+        start: "start center"
+    }
+})
+
+gsap.from( ".from-bottom-to-top", {
+    opacity: 0,
+    y: 200,
+    duration: 0.8,
+    scrollTrigger: {
+        trigger: '.from-bottom-to-top',
+        start: 'start center'
+    }
+} )
+
+gsap.from( ".video", {
+    opacity: 0,
+    y: 200,
+    duration: 0.8,
+    scrollTrigger: {
+        trigger: '.video',
+        start: 'start center'
+    }
+} )
+
+gsap.from( ".faq", {
+    opacity: 0,
+    y: 200,
+    duration: 0.5,
+    stagger: 0.2,
+    scrollTrigger: {
+        trigger: '.faq',
+        start: 'start center'
+    }
+} )
+</script>
+
+{% endblock extra_js %}

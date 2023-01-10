@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load sys_template %}
+{% load user_template %}
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}      
@@ -76,35 +76,48 @@
                         </li>                        
                     </ul>
 
-                    <div class="tab-content">
-                        
-                        <div class="tab-pane show active" id="about-me">
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>クリエイター/ビジネス用プロフィール</h5>                            
+                    <div class="tab-content">                        
+                        <div class="tab-pane show active" id="about-me">                                                   
                             <form action="{%url 'accounts:update_profile'%}" method="POST" enctype="multipart/form-data">                                
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="firstname">名前</label>
+                                            <input type="text" class="form-control" name="username" id="username" value="{%if user.username%}{{user.username}}{%endif%}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>クリエイター/ビジネス用プロフィール</h5>     
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label for="firstname">キャンペーン主催者名</label>
                                             <input type="text" class="form-control" name="owner_name" id="owner_name" value="{%if user.profile.owner_name%}{{user.profile.owner_name}}{%endif%}">
                                         </div>
                                     </div>                                   
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account_name">ユーザー名</label>
                                             <input type="text" class="form-control" name="account_name" id="account_name" value="{%if user.profile.account_name%}{{user.profile.account_name}}{%endif%}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="brand_name">ブランド名</label>
                                             <input type="text" class="form-control" name="brand_name" id="brand_name" value="{%if user.profile.brand_name%}{{user.profile.brand_name}}{%endif%}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="profile_url">ブランドURL</label>
-                                            <input type="text" class="form-control" name="profile_url" id="profile_url" value="{%if user.username%}{{user.username}}{%endif%}">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">{{user.username|get_profile_url}}</span>
+                                                </div>                                                
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -119,10 +132,13 @@
                                             <input type="email" class="form-control" name="contact_form_email" id="contact_form_email" value="{%if user.profile.contact_form_email%}{{user.profile.contact_form_email}}{%endif%}">
                                         </div>
                                     </div> 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="firstname">ヘッダー画像</label>
-                                            <input type="file" class="form-control" name="header_img" id="header_img">
+                                    <div class="col-md-12">
+                                        <label for="firstname">ヘッダー画像</label>
+                                        <div class="col-md-4">      
+                                                                                  
+                                            <img src="{%if user.profile.header_img%}{{user.profile.header_img.url}}{%endif%}" id="header_preview" class="img-thumbnail">
+                                            
+                                            <input type="file" class="btn btn-success btn-xs waves-effect mb-2 waves-light" name="header_img" id="header_img" accept="image/*">
                                         </div>
                                     </div>
                                     <!-- end col -->
@@ -204,7 +220,7 @@
                                    {%if twitteruser%}
                                    <a class="btn btn-sm btn-light link-btn" href="{%url 'accounts:twitter_logout'%}">連携中</a>
                                    {%else%}
-                                   <button class="btn btn-sm btn-danger link-btn">連携する</button>
+                                   <a class="btn btn-sm btn-danger link-btn" href="{%url 'accounts:twitter_login'%}">連携する</a>
                                    {%endif%}
                                 </div>
                             </div>                            
@@ -284,5 +300,11 @@
         }
     }
     
+    header_img.onchange = evt => {
+        const [file] = header_img.files
+        if (file) {
+            header_preview.src = URL.createObjectURL(file)
+        }
+    };
 </script>
 {% endblock %}

@@ -132,6 +132,7 @@ class Profile(models.Model):
     header_img = models.ImageField(verbose_name=_('ヘッダー画像'),upload_to="header_imgs")
     contact_form = models.URLField(verbose_name=_('キャンペーンお問い合わせ先'),max_length=255,blank=True, null=True)
     contact_form_email = models.EmailField(blank=True, null=True)
+    stripe_customer_id = models.CharField(max_length=50, blank=True, null=True)
     
 # Create your models here.
 class TwitterAuthToken(models.Model):
@@ -162,3 +163,51 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+@receiver(models.signals.post_delete, sender=User)
+def post_save_image(sender, instance, *args, **kwargs):
+    """ Clean Old Image file """
+    try:
+        instance.avatar.delete(save=False)        
+    except:
+        pass
+    
+@receiver(models.signals.pre_save, sender=User)
+def pre_save_image_avatar(sender, instance, *args, **kwargs):
+    """ instance old image file will delete from os """
+    try:
+        old_img = instance.__class__.objects.get(id=instance.id).avatar.path
+        try:
+            new_img = instance.avatar.path
+        except:
+            new_img = None
+        if new_img != old_img:
+            import os
+            if os.path.exists(old_img):
+                os.remove(old_img)
+    except:
+        pass
+    
+@receiver(models.signals.post_delete, sender=Profile)
+def post_save_head_img(sender, instance, *args, **kwargs):
+    """ Clean Old Image file """
+    try:
+        instance.header_img.delete(save=False)        
+    except:
+        pass
+    
+@receiver(models.signals.pre_save, sender=Profile)
+def pre_save_head_img(sender, instance, *args, **kwargs):
+    """ instance old image file will delete from os """
+    try:
+        old_img = instance.__class__.objects.get(id=instance.id).header_img.path
+        try:
+            new_img = instance.header_img.path
+        except:
+            new_img = None
+        if new_img != old_img:
+            import os
+            if os.path.exists(old_img):
+                os.remove(old_img)
+    except:
+        pass

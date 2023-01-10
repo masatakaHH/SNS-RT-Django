@@ -6,11 +6,32 @@
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
-            <div class="page-title-box">                
+            <div class="page-title-box">
+                <a href="/dashboard/" class="btn btn-info btn-sm">閉じる</a>
                 <h4 class="page-title">{{object.title}}</h4>
                 <div>
                     <a target="_blank" class="btn btn-info btn-sm" href="{{object.id|campaign_url}}">プレビュー</a>
                     <a class="btn btn-primary btn-sm" href="{% url 'dashboard:campaign-edit' campaign_id=object.id%}">編集</a>
+                    <button data-toggle="modal" data-target="#deletemodal" class="btn btn-dark btn-sm">削除</button>
+                    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>【{{ object.title }}】を本当に削除しますか?</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <form action="{% url 'dashboard:campaign-delete' pk=object.id%}" method="POST" enctype="multipart/form-data">   
+                                {% csrf_token %}                                     
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">キャンセル</button>
+                                <button type="submit" class="btn btn-primary">はい</button>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
                     <button type="button" class="btn btn-danger btn-sm">公開予約</button>
                 <div>
             </div>
@@ -56,7 +77,7 @@
                                                 <h4>基本情報</h4>
                                                 <div class="form-group">
                                                     <label>抽選方式</label>
-                                                    <input type="text" value="{{object.casttype}}" disabled>
+                                                    <input type="text" class="form-control" value="{{object.casttype|get_casttype}}" disabled>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>キャンペーンURL</label>
@@ -64,7 +85,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>期間</label>
-                                                    <p>{{object.sdate|date:"Y-m-d"}}</p>
+                                                    <p>{{object.sdate}}</p>
                                                 </div>
                                             </div>                                           
                                         </div>
@@ -73,13 +94,15 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4>インサイト</h4>
-                                                <p>{{object.sdate|date:"Y-m-d"}}</p>
-                                                <div class="d-flex justify-content">
-                                                    <label>応募者</label>
+                                                {%if object.is_publish%}
+                                                <p>{{object.sdate|date:"Y-m-d H:i"}} ~ {{object.edate|date:"Y-m-d H:i"}}</p>
+                                                {%endif%}
+                                                <div class="d-flex justify-content-between">
+                                                    <label><i class="mdi mdi-account-multiple-check"></i> 応募者</label>
                                                     <p >{{object.casttype}}</p>
                                                 </div>
-                                                <div class="d-flex justify-content">                                                    
-                                                    <label>閲覧者</label>
+                                                <div class="d-flex justify-content-between">                                                    
+                                                    <label><i class="mdi mdi-eye-check"></i> 閲覧者</label>
                                                     <p >{{object.casttype}}</p>
                                                 </div>
                                             </div>                                           
@@ -91,11 +114,14 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4>ギフト</h4>
-                                                <div class="form-group">
-                                                    <label>クーポン</label>
-                                                    <input type="text" value="{{object.casttype}}" disabled>
-                                                </div>
-                                                
+                                                <div class="form-group">                                                    
+                                                    {%for digitalgift in digitalgifts %}
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>{{digitalgift.title}}</span>
+                                                        <span >{{digitalgift.candidate_num}}名様</span>
+                                                    </div>
+                                                    {%endfor%}                                                    
+                                                </div>                                                
                                             </div>                                           
                                         </div>
                                     </div> <!-- end col -->
@@ -105,10 +131,26 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4>アクション</h4>
-                                                <div class="form-group">
-                                                    <label>フォロー</label>
-                                                    <input type="text" value="{{object.casttype}}" disabled>
-                                                </div>
+                                                <ul class="actions-pool">                                                    
+                                                    {%for obj in campaignactions%}
+                                                    <li>
+                                                        <div class="action-item">
+                                                            <div class="action-icon">
+                                                                <img src="{% static 'images/twitter.png'%}">
+                                                            </div>
+                                                            <div class="action-label-description">
+                                                                <input type="hidden" value="{{obj.id}}" id="twitter_action_id">
+                                                                <span class="action-label">{{obj.action_name}}</span>
+                                                                {%if obj.action_name.action_id == 1%}
+                                                                <span class="action-description">@{{obj.screen_name}}</span>
+                                                                {%elif obj.action_name.action_id == 2%}
+                                                                <span class="action-description">@{{obj.retweet_url}}</span>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {%endfor%}                                                    
+                                                </ul>
                                                 
                                             </div>                                           
                                         </div>
@@ -121,7 +163,120 @@
                                     <div class="col-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                
+                                                <div class="form-group">
+                                                    <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 my-campaigns-table" cellspacing="0" id="basic-datatable">
+                                                        <thead class="bg-light">
+                                                        <tr>
+                                                            <th class="font-weight-medium">ギフト名</th>
+                                                            <th class="font-weight-medium">コードタイプ</th>
+                                                            <th class="font-weight-medium">枚数</th>
+                                                            <th class="font-weight-medium">受取期限</th>
+                                                            <th class="font-weight-medium">有効期間/開始</th>
+                                                            <th class="font-weight-medium">有効期間/終了</th>
+                                                            <th class="font-weight-medium">詳細URL</th>
+                                                            <th class="font-weight-medium">ギフト金額</th>
+                                                            <th class="font-weight-medium">利用条件</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>                                
+                                                        <tbody class="font-14">                            
+                                                            {%for digitalgift in digitalgifts %}
+                                                            <tr class="hover">                               
+                                                                <td class="d-flex align-items-center">{{digitalgift.title}}</td>
+                                                                <td>{{digitalgift.codetype}}</td>
+                                                                <td>{{digitalgift.candidate_num}}</td>
+                                                                <td>{{digitalgift.receipt_date}}</td>
+                                                                <td>{{digitalgift.sdate}}</td>
+                                                                <td>{{digitalgift.edate}}</td>
+                                                                <td>{{digitalgift.detail}}</td>
+                                                                <td>{{digitalgift.money}}</td>
+                                                                <td>{{digitalgift.useterm_doc}}</td>
+                                                                <td><button class="btn btn-info" type="button" data-toggle="modal" data-target="#gift_edit_{{digitalgift.id}}"><i class="mdi mdi-pencil"></i></button></td>
+                                                                <!-- Modal -->
+                                                                <div id="gift_edit_{{digitalgift.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gift_edit_ModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <form action="{%url 'dashboard:gift-update'%}" method="POST" enctype="multipart/form-data">
+                                                                                {% csrf_token %}
+                                                                            <input type="hidden" name="gift_id" value="{{digitalgift.id}}">
+                                                                            <input type="hidden" name="campaign_id" value="{{object.id}}">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title">ギフト編集</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <h5 class="mt-0">デジタル</h5>
+                                                                                <div class="form-group">                                                                    
+                                                                                    <input type="file" name="giftimg" id="giftimg" class="" accept="image/*">
+                                                                                    <div>
+                                                                                    <small>推奨サイズ: 縦450px 横</small>
+                                                                                    <small>450px</small>
+                                                                                    <small>推奨比率 : 縦1 横1</small>
+                                                                                    </div>                                                                                    
+                                                                                    <img id="giftimg_preview" src="{%if digitalgift.image%}{{digitalgift.image.url}}{%endif%}"/>   
+                                                                                </div>    
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gitftname">ギフト名</label>
+                                                                                    <input type="text" name="giftname" id="gitftname" class="form-control" value="{%if digitalgift.title%}{{digitalgift.title}}{%endif%}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="giftcode">コードタイプ</label>
+                                                                                    <select name="giftcode" id="giftcode" class="form-control">
+                                                                                        {%if digitalgift.codetype%}
+                                                                                        <option selected value="{{digitalgift.codetype}}">{{digitalgift.codetype}}</option>
+                                                                                        {%endif%}
+                                                                                        <option value="テキスト">テキスト</option>
+                                                                                        <option value="URL">URL</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="giftapplicant">枚数 （当選者数）</label>
+                                                                                    <input type="number" name="giftapplicant" id="giftapplicant" class="form-control" value="{%if digitalgift.candidate_num%}{{digitalgift.candidate_num}}{%endif%}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_receive_limit_date">受取期限</label>
+                                                                                    <input type="text" class="form-control" name="gift_receive_limit_date" id="gift_receive_limit_date" value="{%if digitalgift.receipt_date%}{{digitalgift.receipt_date|date:"Y-m-d"}}{%endif%}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_effect_start_date">有効期間/開始(任意)</label>
+                                                                                    <div class="d-flex">
+                                                                                    <input type="text" class="form-control" name="gift_effect_start_date" id="gift_effect_start_date" value="{%if digitalgift.sdate%}{{digitalgift.sdate|date:"Y-m-d"}}{%endif%}">
+                                                                                    <input type="time" name="gift_effect_start_date_time" value="12:00" id="gift_effect_start_date_time">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_effect_end_date">有効期間/終了(任意)</label>
+                                                                                    <div class="d-flex">
+                                                                                    <input type="text" class="form-control" name="gift_effect_end_date" id="gift_effect_end_date" value="{%if digitalgift.edate%}{{digitalgift.edate|date:"Y-m-d"}}{%endif%}">
+                                                                                    <input type="time" name="gift_effect_end_date_time" value="12:00" id="gift_effect_end_date_time">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_detail_url">詳細URL(任意)</label>
+                                                                                    <input type="url" class="form-control" name="gift_detail_url" id="gift_detail_url" placeholder="https://example.com" value="{%if digitalgift.detail%}{{digitalgift.detail}}{%endif%}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_price">ギフト金額(任意)</label>
+                                                                                    <input type="number" class="form-control" name="gift_price" id="gift_price" placeholder="1000" value="{%if digitalgift.money%}{{digitalgift.money}}{%endif%}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-6 col-form-label" for="gift_userterm">利用条件(任意)</label>
+                                                                                    <textarea type="text" class="form-control" name="gift_userterm" id="gift_userterm" placeholder="期間中に利用可能店舗に来店して、この画面を店員に提示してください。（クーポンの場合）">{%if digitalgift.useterm_doc%}{{digitalgift.useterm_doc}}{%endif%}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="submit" class="btn btn-primary" data-id="{{digitalgift.id}}" data-name="{{digitalgift.title}}" >保存</button>
+                                                                            </div>
+                                                                            </form>
+                                                                        </div><!-- /.modal-content -->
+                                                                    </div><!-- /.modal-dialog -->
+                                                                </div><!-- /.modal -->
+                                                                <!-- Modal -->
+                                                            </tr>
+                                                            {%endfor%}                            
+                                                        </tbody>
+                                                    </table>                                                                    
+                                                </div>
                                             </div>                                           
                                         </div>
                                         
@@ -163,15 +318,107 @@
 <link rel="stylesheet" href="{% static 'js/jquery-ui-1.13.2.css' %}">
 <script src="{% static 'js/datepicker-ja.js' %}"></script>    
 <script>
-    
-    
+    $("#gift_receive_limit_date").datepicker(
+        {
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+        }
+    );
+    if($('#gift_receive_limit_date').val() == ""){
+        $('#gift_receive_limit_date').datepicker(
+            "setDate", new Date()
+        );
+    };
 
-    
+    $("#gift_effect_start_date").datepicker(
+        {
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+        }
+    );
+    if($('#gift_effect_start_date').val() == ""){
+        $('#gift_effect_start_date').datepicker(
+            "setDate", new Date()
+        );
+    };
+
+    $("#gift_effect_end_date").datepicker(
+        {
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+        }
+    );
+    if($('#gift_effect_end_date').val() == ""){
+        $('#gift_effect_end_date').datepicker(
+            "setDate", new Date()
+        );
+    };    
     
 </script>
 
-<!-- キャンペーン保存 -->
+<!-- ギフト編集 -->
 <script>
-    
+    var gift_image_file = '';  //ギフト画像ファイル
+    {%if digitalgifts%}
+    giftimg.onchange = evt => {
+        const [file] = giftimg.files;
+        gift_image_file = giftimg.files;
+        if (file) {
+            giftimg_preview.src = URL.createObjectURL(file);            
+        }
+    };
+    {%endif%}
+    let gift_update = button => {
+        var gift_id = button.getAttribute('data-id');        
+        var gift_type = 'デジタル';
+        var gift_name = $("#gitftname").val();
+        var gift_code = $("#giftcode").val();
+        var giftapplicant = $("#giftapplicant").val();
+        var gift_receive_limit_date = $("#gift_receive_limit_date").val();
+        var gift_effect_start_date = $("#gift_effect_start_date").val();
+        var gift_effect_start_date_time = $("#gift_effect_start_date_time").val();
+        var gift_effect_end_date = $("#gift_effect_end_date").val();
+        var gift_effect_end_date_time = $("#gift_effect_end_date_time").val();
+        var gift_detail_url = $("#gift_detail_url").val();
+        var gift_price = $("#gift_price").val();
+        var gift_userterm = $("#gift_userterm").val();
+        gift_data_set = {
+            'gift_name' : gift_name,
+            'gift_code': gift_code,
+            'giftapplicant': giftapplicant,
+            'gift_receive_limit_date': gift_receive_limit_date,
+            'gift_effect_start_date': gift_effect_start_date,
+            'gift_effect_start_date_time': gift_effect_start_date_time,
+            'gift_effect_end_date': gift_effect_end_date,
+            'gift_effect_end_date_time': gift_effect_end_date_time,
+            'gift_detail_url': gift_detail_url,
+            'gift_price': gift_price,
+            'gift_userterm': gift_userterm
+        }       
+        var json_gift_data_set = JSON.stringify(gift_data_set);
+        var formData = new FormData();
+        var csrftoken = "{{ csrf_token }}";
+        formData.append('csrfmiddlewaretoken', csrftoken);
+        formData.append('gift_id', gift_id);
+        formData.append('gift_data_set', json_gift_data_set);
+        if(gift_image_file != ''){
+            formData.append('gift_image_file', gift_image_file);
+        }
+        $.ajax({
+            url : '{% url 'dashboard:gift-update' %}',
+            data:formData,
+            type:'POST',
+            contentType: false,
+            processData: false,
+            success:function(data){                
+                console.log(data.status);                
+                $('.modal').modal('hide');
+            }
+        });
+    }
 </script>
+
 {% endblock %}

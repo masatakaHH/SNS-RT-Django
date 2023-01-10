@@ -29,13 +29,13 @@ class UserCreateForm(UserCreationForm):
         super(UserCreateForm, self).clean()
         try:
             user = User.objects.get(email=self.cleaned_data['email'])
-            raise forms.ValidationError("同じメールを持つユーザーが既に存在します。")
+            raise forms.ValidationError("既にこのメールは存在する為、登録できません。")
         except User.DoesNotExist:
             pass
         
         try:
             user = User.objects.get(username=self.cleaned_data['username'])
-            raise forms.ValidationError("同じ名前を持つユーザーが既に存在します。")
+            raise forms.ValidationError("既にこのユーザー名は存在する為、登録できません。")
         except User.DoesNotExist:
             pass
 
@@ -127,3 +127,5 @@ class PasswordResetFormUpdate(PasswordResetForm):
         except Exception as e:
             print(e)
     
+class PaymentForm(forms.Form):
+    stripeToken = forms.CharField(required=False)    

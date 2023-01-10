@@ -1,123 +1,162 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load crispy_forms_tags %}
-
-
+{% extends "base_lp.html" %}
+{% load sys_template %}
+{% load static %}
+{% block content %}      
+<!-- Page header starts -->
 <div class="container-fluid">
-    <div class="page-head">
-        <h4 class="mt-2 mb-2">ユーザー情報</h4>
+    <div class="page-header-wrap overflow-hidden parent-floating pt-20">
+        <div class="profile-header floating" style="background-image: url({%if user.profile.header_img%}{{user.profile.header_img.url}}{%else%}{%static 'images/hero-car.png'%}{%endif%})"></div>
     </div>
-    <div class="row margin-auto">
-        <div class="col-xl-6 col-lg-6 margin-auto">
-        <div class="card shadow">
-            <div class="card-body">
-            <h4 class="text-center text-bold">ユーザー情報変更</h4>         
-            <div class="form-row">
-                <div class="col-md-6">
-                    <form id="div_id_last_name" class="form-group editable-input-panel">
-                        {% csrf_token %}                      
-                        <label class="col-form-label">名字</label>                      
-                        <input type="text" name="last_name_jp" value="{{ request.user.last_name_jp }}" class="textinput textInput form-control" required="" id="id_last_name_jp">
-                        <label class="col-form-label">名字_カタカナ</label>                      
-                        <input type="text" name="last_name_kana" value="{{ request.user.last_name_kana }}" class="textinput textInput form-control" required="" id="id_last_name_kana">
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <form id="div_id_first_name" class="form-group editable-input-panel">
-                        {% csrf_token %}                      
-                        <label class="col-form-label">名前</label>                      
-                        <input type="text" name="first_name_jp" value="{{ request.user.first_name_jp }}" class="textinput textInput form-control" required="" id="id_first_name_jp">
-                        <label class="col-form-label">名前_カタカナ</label>                      
-                        <input type="text" name="first_name_kana" value="{{ request.user.first_name_kana }}" class="textinput textInput form-control" required="" id="id_first_name_kana">
-                    </form>
-                </div>
-            </div>
-            
-            <label class="col-form-label">メールアドレス</label>
-            <div class="form-row">
-                <div class="col-md-12">
-                    <form id="div_id_email" class="form-group mb-0 editable-input-panel">
-                        {% csrf_token %}                     
-                        <input type="email" name="email" value="{{ request.user.email }}" class="textinput textInput form-control" required="" id="id_email">                                      
+</div>
 
-                    </form>
-                </div>
-            </div>        
-            <br>
-            <button class="btn btn-primary btn-center" id="change_user" name="user_form" value="change_user" style="width: 200px;">ユーザー情報変更</button>
-            <br>
-            <br>       
-            <h4 class="text-bold text-uppercase text-center">パスワード</h4>
-            <div class="form-row">
-                <div class="col-md-12">
-                <form method="post" class="form-group mb-0 editable-input-panel">
-                    {% csrf_token %}
-
-                    {#{{ pw_form|crispy }}#}
-                    <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                        {{ pw_form.old_password|as_crispy_field }}
-                    </div>
-                    </div>
-                    <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                        {{ pw_form.new_password1|as_crispy_field }}
-                    </div>
-                    </div>
-                    <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                        {{ pw_form.new_password2|as_crispy_field }}
-                    </div>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-center" name="pw_form" value="change_password" type="submit" style="width: 200px;">パスワード変更</button>
-                </form>
-                </div>
+<!-- page starts -->
+<div class="container page-container booster-page">
+    <div class="user-info d-flex flex-column align-items-center">
+        <img src="{%if user.profile.owner_name%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="profile-img rounded-circle">
+        <div class="user-name">
+            <h2>{%if user.profile.owner_name%}{{user.profile.owner_name}}{%else%}未登録{%endif%}</h2>
+        </div>
+        <div class="user-link">
+            <a href="https://www.shokubun.co.jp/">{%if user.profile.contact_form%}{{user.profile.contact_form}}{%else%}未登録{%endif%}</a>
+        </div>
+        
+        <div class="user-socials pt-2">
+            {% if twitter_user %}
+            <ul class="lists">                
+                <li class="list-item">
+                    <a href="#" class="list-link">
+                        <img src="{%static 'images/twitter1.png'%}" alt="" class="list-fig rounded-circle">
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
+        </div>
+        
+        <div class="user-status d-flex justify-content-between align-items-center">
+            <div class="number d-flex flex-column align-items-center justify-content-center">
+                <div class="total fs-20 fw-bold">{{campaign_num}}</div>
+                <div class="label fs-12 mt-2">キャンペーン数</div>
             </div>
+            <div class="divider"></div>
+            <div class="number d-flex flex-column align-items-center justify-content-center">
+                <div class="total fs-20 fw-bold">{{applicant_num}}</div>
+                <div class="label fs-12 mt-2">当選者数</div>
             </div>
         </div>
-        </div>
+    </div>
+    <div class="tap-bar d-flex align-items-center justify-content-center">
+        <a href="#" class="tab active open">開催中</a>
+        <a href="#" class="tab closed">終了</a>
+    </div>
+    <div class="campaigns d-grid gc-2 gap-4 ptb-6">
+        
     </div>
 </div>
 
 {% endblock content %}
 {% block scripts %}
-
+<script type="text/javascript" src="{% static 'js/vendor.min.js' %}"></script>    
+<script type="text/javascript" src="{% static 'js/pages/jquery.todo.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
 <script type="text/javascript">
-    
-    function validateEmail(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    };
+    const campaigns = document.querySelector('.campaigns');
+    const tabBtns = document.querySelectorAll('.tap-bar .tab');
+    const data = [];
+    {%for campaign in publish_campaigns %}
+        one_data = {
+            id: '{{campaign.id}}',
+            img: "{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}",
+            badge: "公開中",
+            everyone: '{{campaign|get_applicant_by_campaign}}',
+            myself: 0,
+            status: "open"
+        };
+        data.push(one_data);
+    {%endfor%}
+    {%for campaign in end_campaigns %}
+        one_data = {
+            id: '{{campaign.id}}',
+            img: "{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}",
+            badge: "終了",
+            everyone: 0,
+            myself: 0,
+            status: "closed"
+        };
+        data.push(one_data);
+    {%endfor%}
+    console.log(data);
+    let html ="";
 
-    $("#change_user").click(function(){
-        
-        var last_name_jp = $("#id_last_name_jp").val();
-        var last_name_kana = $("#id_last_name_kana").val();
-        var first_name_jp = $("#id_first_name_jp").val();
-        var first_name_kana = $("#id_first_name_kana").val();
-        var email = $("#id_email").val();    
-        $.ajax({
-            url : '{% url 'dashboard:change_user' %}',
-            data:{
-                last_name_jp : last_name_jp,
-                last_name_kana : last_name_kana,
-                first_name_jp: first_name_jp,
-                first_name_kana: first_name_kana,
-                email : email,        
-                csrfmiddlewaretoken: "{{ csrf_token }}"
-            },
-            type:'POST',
-            success:function(data){
-                alert("成功的に変更されました。");
-                $("#id_last_name_jp").val(last_name_jp);
-                $("#id_last_name_kana").val(last_name_kana);
-                $("#id_email").val(email);
-                $("#id_first_name_jp").val(first_name_jp);
-                $("#id_first_name_kana").val(first_name_kana);
+    let status = "open";
+
+    tabBtns.forEach( btn => {
+
+        btn.addEventListener( "click", function(e){
+            e.preventDefault();
+            
+            tabBtns.forEach( btn => btn.classList.remove('active') );
+
+            if( this.classList.contains('open') ){
+                status = "open";
+                this.classList.add('active');
+                html = '';
+                addData();
             }
-        });
-    });
-</script>
+            if( this.classList.contains("closed") ){
+                status = "closed";
+                this.classList.add('active');
+                html = '';
+                addData();
+            }
 
+        } )
+
+    } )
+
+    function addData(){
+        data.forEach( item => {
+            if( item.status === status ){
+                html += `<div class="campaign text-center">
+                                <a href="/campaign/${item.id}" class="campaign-item">
+                                    <img src="${item.img}" class="campaign-img">
+                                    <div class="campaign-status-badge-wrapper">
+                                        <div class="campaign-status-badge closed">${item.badge}</div>
+                                    </div>
+                                    <div class="item-body">
+                                        <div class="item-footer p-16">
+                                            <div class="campaign-number-status d-flex align-items-center justify-content-between">
+                                                    <div class="number-col">
+                                                        <div class="number ">
+                                                            <div class="fs-16 fw-bold">${item.myself}</div>
+                                                            <div class="label fs-12">自分</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="divider"></div>                           
+                                                    <div class="number-col">
+                                                        <div class="number">
+                                                            <div class="fs-16 fw-bold">${item.everyone}</div>
+                                                            <div class="label fs-12">みんな</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="divider"></div>
+                                                    <div class="number-col">
+                                                    <div class="number">
+                                                        <div class="end">終了</div>                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>`;
+            }
+        } )
+        
+        campaigns.innerHTML = html;
+    }
+
+    window.addEventListener( "load", addData );
+</script>
 {% endblock %}

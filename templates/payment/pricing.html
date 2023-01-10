@@ -1,0 +1,100 @@
+{% extends "base_lp.html" %}
+{% load static %}
+{% block content %}      
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title"></h4>
+                
+            </div>
+        </div>
+    </div>     
+    <!-- end page title -->
+    <div class="row">
+        <div class=" col-xl-12 col-lg-12">
+            <div class="row">
+                {%for plan in plans %}
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <span>{{plan.name}}</span>
+                        </div>
+                        <div class="card-body">
+                            <strong>14日間無料</strong>
+                            <p><small>¥{{plan.price}}</small></p>
+                            <p>{{plan.summary}}</p>
+                            
+                        </div>
+                        <div class="card-footer">
+                            {%if paymenthistory.plan == plan %}
+                            <button class="btn btn-danger cancel" data-id="{{paymenthistory.checkout_session}}" >お申込み撤回</button>                            
+                            {%else%}
+                            <button class="btn btn-primary purchase" data-id="{{plan.id}}" >お申込み</button>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+</div> <!-- container -->
+
+{% endblock content %}
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        console.log("Sanity check!");
+        let stripe;
+        fetch("/accounts/config/")
+        .then((result) => { return result.json(); })
+        .then((data) => {
+            stripe = Stripe(data.publicKey);
+        });
+        
+        $('body').on('click','.purchase', function () {
+            let plan_id = $(this).attr('data-id');
+            if(!plan_id){
+                return
+            }
+            fetch("/accounts/create-checkout-session/?plan_id="+plan_id)
+            .then((result) => { return result.json();})
+            .then((data) => {
+            if(data.email){
+                alert("メールアドレスをご記入ください！");
+                window.location = '/accounts/profile/';
+            }
+            if(data.error){
+                alert("stripe接続状態を確認してください！");
+                window.location = '/accounts/payment/';
+            }
+            if(data.success){
+                window.location = '/accounts/payment/success?plan_id='+plan_id;
+            }else{
+                return stripe.redirectToCheckout({sessionId: data.sessionId})
+            }
+            })
+            .then((res) => {      
+            console.log(res);
+            });
+        })
+
+        $('body').on('click','.cancel', function () {
+            let checkout_session = $(this).attr('data-id');
+            if(!checkout_session){
+                return
+            }
+            fetch("/accounts/cancel-checkout-session/?checkout_session_id="+checkout_session)
+            .then((result) => { return result.json();})
+            .then((data) => {
+                window.location = '/accounts/payment/';            
+            })
+            .then((res) => {      
+                console.log(res);
+            });
+        })
+    </script>
+{% endblock %}

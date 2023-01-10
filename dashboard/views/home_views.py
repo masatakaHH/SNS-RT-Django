@@ -9,6 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse,JsonResponse
 from accounts.models import User
 from django.contrib.auth.decorators import user_passes_test
+from dashboard.models import Campaign,Applicants
+from datetime import datetime
+import pytz
 
 class HomeView(TemplateView):
     model = User
@@ -18,10 +21,43 @@ class HomeView(TemplateView):
         context = self.get_context_data()
         return render(request, self.template_name, context)
     
-    def get_context_data(self, **kwargs):        
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        now = datetime.today().astimezone(pytz.timezone('Asia/Tokyo'))
+        publish_campaigns = []
+        end_campaigns = []
+        applicants = Applicants.objects.filter(user=self.request.user)
+        for applicant in applicants:
+            campaign = applicant.campaign
+            if campaign.sdate < now:
+                publish_campaigns.append(campaign)
+            if campaign.edate < now:
+                end_campaigns.append(campaign)
+        
+        context['publish_campaigns'] = publish_campaigns        
+        context['end_campaigns'] = end_campaigns
+        
         return context
+    
+class TopPageView(TemplateView):
+    model = User
+    template_name = 'toppage.html'
 
 class CampaignView(TemplateView):
     model = User
-    template_name = 'home.html'
+    template_name = 'campaign/campaign_publish.html'
+    
+    def get(self,request,campaign_id):
+        now = datetime.today().astimezone(pytz.timezone('Asia/Tokyo'))
+        campaign = get_object_or_404(Campaign, id=campaign_id)
+        context = {}
+        applicants = Applicants.objects.filter(user=request.user,campaign=campaign)
+        if len(applicants) > 0:
+            context['applied'] = True
+        context['user'] = campaign.user       
+        context['campaign'] = campaign
+        return render(request,self.template_name,context)
+    
+class LegalView(TemplateView):
+    template_name = 'legal.html'
+    model = User
