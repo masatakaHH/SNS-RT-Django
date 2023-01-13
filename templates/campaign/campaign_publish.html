@@ -3,73 +3,146 @@
 {% load static %}
 {% block content %}      
 <div class="container">
-    <div class="campaign-container">
-
-        <div class="campaign">
-            <div class="card d-flex align-items-center justify-content-center flex-column">
-                <div class="campaign-image-wrapper">
-                    <img src="{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}" alt="" class="campaign-image">
-                </div>
-                <a href="{%url 'accounts:profile-publish' pk=user.username %}" class="owner d-flex align-items-center justify-content-center py-2">
-                    <img src="{%if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="" class="owner-icon">
+    <div class="pocker-wrapper">
+        <div class="header-media">
+            <img src="{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}" alt="" class="campaign-image">
+        </div>
+        <div class="pocker-body mb-4">                     
+            <div class="title-wrapper px-16 mt-4">
+                <h1 class="fs-20 fw-bold">{{campaign.title}}</h1>
+            </div>
+            <div class="d-flex align-items-center justify-content-center">
+                <a href="{%url 'accounts:profile-publish' pk=user.username %}">
+                    <img width="60px" src="{%if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/man.png'%}{%endif%}" alt="">
                     <div class="owner-brand">{%if user.profile.owner_name%}{{user.profile.owner_name}}{%else%}未登録{%endif%}</div>
                 </a>
-                <div class="period text-center py-2">
-                    {{campaign.sdate}}~{{campaign.edate}}まで
+            </div>
+            <div class="period text-center py-2">
+                {{campaign.sdate}}~{{campaign.edate}}まで
+            </div>
+            <div class="pocker-info-wrapper px-16">
+                <div class="pocker-info mt-4 border border-l-0 border-r-0 py-2 d-flex flex-column align-items-center">
+                    <a href="#" class="info-trigger trigger" data-element="info-content">
+                        応募方法
+                    </a>                        
                 </div>
-                {%with campaign|get_action_by_campaign as campaignactions%}
-                {%if campaignactions %}
-                <h4><img src="{%static 'images/twitter1.png'%}" alt="" width="30" height="30" class="sns-icon">  {{campaignactions.action_name}}が必要です</h4>
-                {%if campaignactions.action_name.name == 'リツイート' %}
-                <a href="{{campaignactions.retweet_url}}" target="_blank">
-                    <span class="content-wrapper">{{campaignactions.action_name}}</span>
-                </a>
-                {%elif campaignactions.action_name.name == 'フォロー' %}
-                <a href="https://twitter.com/{{campaignactions.screen_name}}" target="_blank">
-                    <span class="content-wrapper">@{{campaignactions.screen_name}}{{campaignactions.action_name}}</span>
-                </a>
-                {%endif%}
-                {%if applied %}
-                <button type="button" class="entry-btn" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}" disabled>
-                    <span class="content-wrapper">
-                        応募した
-                    </span>
-                </button>
-                {%else%}
-                <button type="button" class="entry-btn" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}">
-                    <span class="content-wrapper">
-                        応募する
-                    </span>
-                </button>
-                {%endif%}
-                {%endif%}
-                {%endwith%}
-                <div class="tos text-center fs-10 my-4">
-                    上のボタンをタップすると、<a href="/legal/">利用規約</a>・<a href="/legal/">プライバシーポリシー</a>・キャンペーン規約に同意したことになります。
-                </div>
-                <div class="login-bar-wrapper">
-                    <div class="login-bar d-flex justify-content-center align-items-center">
-                        {% if request.user.is_authenticated %}
-                        <div class="login-title mr-1"><span>{{request.user.username}}</span></div>
-                        <div class="login-methods">
-                            <div class="login-method">                                
-                                <img src="{%static 'images/twitter1.png'%}" class="ml-1">  
-                                <a href="{%url 'accounts:profile'%}" class="unauth"><span class="fs-10">設定変更</span></a>
-                                <a href="{%url 'accounts:account_logout'%}" class="unauth"><span class="fs-10">ログアウト</span></a>                             
-                            </div>
-                        </div>
-                        {%else%}                        
-                        <div class="login-methods">
-                            <div class="login-method">
-                                <a href="{%url 'accounts:twitter_login'%}" class="unauth">ログイン
-                                    <img src="{%static 'images/twitter1.png'%}" class="ml-1">
-                                </a>
-                            </div>
-                        </div>
-                        {%endif%}
+                <div id="info-content" class="info-content closed py-2">
+                    <ul>
+                    <li>
+                    {%with campaign|get_action_by_campaign as campaignactions%}
+                    {%if campaignactions %}
+                    <p>{{campaignactions.action_name}}が必要です</p>                    
+                    <div class="actions px-16">
+                        <div id="toggle-1">
+                            {%if campaignactions.action_name.name == 'リツイート' %}
+                            <a href="{{campaignactions.retweet_url}}" target="_blank">
+                                <div class="btn btn-square c-twitter d-flex justify-content-between align-items-center">                                    
+                                    <div class="title-wrapper d-flex align-items-center">
+                                        <img src="{%static 'images/twitter1.png'%}" width="20" height="20" alt="">
+                                        <div class="d-flex flex-column align-items-start ml-1">
+                                            <span class="title">{{campaignactions.action_name}}</span>                                            
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="action-check">+1</span>                                    
+                                    </div>                            
+                                </div>
+                            </a>
+                            {%elif campaignactions.action_name.name == 'フォロー' %}
+                            <a href="https://twitter.com/{{campaignactions.screen_name}}" target="_blank">
+                                <div class="btn btn-square c-twitter d-flex justify-content-between align-items-center">                                    
+                                    <div class="title-wrapper d-flex align-items-center">
+                                        <img src="{%static 'images/twitter1.png'%}" width="20" height="20" alt="">
+                                        <div class="d-flex flex-column align-items-start ml-1">
+                                            <span class="title">{{campaignactions.action_name}}</span>
+                                            <span class="target fs-13">@{{campaignactions.screen_name}}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="action-check">+1</span>                                    
+                                    </div>                            
+                                </div>
+                            </a>
+                        </div>                    
                     </div>
+                    {%endif%}                        
+                    {%endif%}
+                    {%endwith%}
+                    </li>
+                    <li>
+                        <p>動画視聴</p> 
+                    </li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="gifts py-3 px-16 py-30">
+                <label>当選ギフト</label>
+                {%with campaign|get_digitalgift_by_campaign as digitalgift%}
+                {%if digitalgift%}
+                <div class="gift d-flex gap-2 align-items-start">
+                    <img src="{%if digitalgift.image%}{{digitalgift.image.url}}{%else%}{%static 'images/gifts/code.png'%}{%endif%}" width="60" height="60" class="gift-icon">
+                    <div class="content">
+                        <p class="name fs-14 fw-bold mb-0">{{digitalgift.title}}({{digitalgift.codetype}})</p>
+                        <p class="number fs-13 fc-9b">当選者数:{{digitalgift.candidate_num}}名様</p>
+                    </div>
+                </div>    
+                {%endif%}            
+                {%endwith%}
+            </div>
+            
+        
+            {%with campaign|get_action_by_campaign as campaignactions%}
+            {%if campaignactions %}
+            <div class="pocker-draw px-16 py-30">
+            {%if applied %}
+            <button type="button" class="btn c-red btn-square pop-up-trigger" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}" disabled>
+                <span class="content-wrapper">
+                    抽選した
+                </span>
+            </button>
+            {%else%}
+            <button type="button" class="btn c-red btn-square pop-up-trigger" onclick="applicant(this);" data-id="{{campaign.id}}" data-action="{{campaignactions.id}}">
+                <span class="content-wrapper">
+                    抽選する
+                </span>
+            </button>
+            {%endif%}
+            </div>
+            {%endif%}
+            {%endwith%}
+            <div class="pocker-entry px-16 py-30">
+                <div class="entry-title">
+                    <b>エントリーフォーム</b>
+                    <div class="entry-subtitle">1エントリーごとに1回抽選できます</div>
                 </div>
             </div>
+            <div class="tos text-center fs-10 my-4">
+                上のボタンをタップすると、<a href="/legal/">利用規約</a>・<a href="/legal/">プライバシーポリシー</a>・キャンペーン規約に同意したことになります。
+            </div>
+            <div class="login-bar-wrapper">
+                <div class="login-bar d-flex justify-content-center align-items-center">
+                    {% if request.user.is_authenticated %}
+                    <div class="login-title mr-1"><span>{{request.user.username}}</span></div>
+                    <div class="login-methods">
+                        <div class="login-method">                                
+                            <img src="{%static 'images/twitter1.png'%}" class="ml-1">  
+                            <a href="{%url 'accounts:profile'%}" class="unauth"><span class="fs-10">設定変更</span></a>
+                            <a href="{%url 'accounts:account_logout'%}" class="unauth"><span class="fs-10">ログアウト</span></a>                             
+                        </div>
+                    </div>
+                    {%else%}                        
+                    <div class="login-methods">
+                        <div class="login-method">
+                            <a href="{%url 'accounts:twitter_login'%}" class="unauth">ログイン
+                                <img src="{%static 'images/twitter1.png'%}" class="ml-1">
+                            </a>
+                        </div>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+            
         </div>
     
         <div class="campaign-term">
@@ -133,9 +206,8 @@
 </div>
 
 {% endblock content %}
-{% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+{% block extra_js %}
+
 <script type="text/javascript">
     const selectorAll = e =>  document.querySelectorAll( e);
     const selector = e => document.querySelector(e);
@@ -192,9 +264,64 @@
         })
     } )
 
+    const triggers = document.querySelectorAll('.trigger');
+
+    triggers.forEach( tr => {
+        const element = tr.getAttribute('data-element');
+
+        let open = false;
+
+        tr.addEventListener( 'click', (e)=>{
+            e.preventDefault();
+
+            //e.target.parentNode.querySelector('.arrow').classList.toggle("rotate");
+
+            if( !open ){
+
+                gsap.to( `#${element}`, {
+                    opacity: 1,
+                    height: 'auto',
+                    duration: 0.5
+                } )
+
+                open = true;
+
+            }else{
+
+                gsap.to( `#${element}`, {
+                    opacity: 0,
+                    height: 0,
+                    duration: 0.5
+                } )
+
+                open = false;
+
+            }
+
+        } )
+
+    } )
+
+    const popupTriggers = document.querySelectorAll('.pop-up-trigger');
+    const popups = document.querySelectorAll(".pop-up");
+
+    popupTriggers.forEach( trigger => {
+        trigger.addEventListener('click', function(){
+            const popup = this.getAttribute('data-target');
+
+            popups.forEach( el => {
+                if( el.classList.contains(popup) ){
+                    el.classList.add('show');
+                    el.querySelector('.close').addEventListener( 'click', ()=>{
+                        el.classList.remove('show');
+                    } )
+                }
+            } )
+
+        })
+    } )
 </script>
-<script type="text/javascript" src="{% static 'js/vendor.min.js' %}"></script>    
-<script type="text/javascript" src="{% static 'js/pages/jquery.todo.js' %}"></script>
+
 <script type="text/javascript">
     let applicant = button =>{
         var campaign_id = button.getAttribute('data-id');

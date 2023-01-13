@@ -34,3 +34,8 @@ def get_applicant_by_campaign(campaign):
 def get_action_by_campaign(campaign):
     campaignactions = CampaignAction.objects.filter(campaign=campaign).first()
     return campaignactions
+
+@register.filter
+def get_digitalgift_by_campaign(campaign):
+    gift = DigitalGift.objects.filter(campaign=campaign).first()    
+    return gift

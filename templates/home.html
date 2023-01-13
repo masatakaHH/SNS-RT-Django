@@ -1,29 +1,41 @@
 {% extends "base_1.html" %}
 {% load sys_template %}
 {% load static %}
+
 {% block content %}      
-<!-- Page header starts -->
-<div class="container-fluid">
-    <div class="page-header-wrap overflow-hidden parent-floating pt-20">
-        
-    </div>
-</div>
 
 <!-- page starts -->
-<div class="container page-container page-booster">
-    
-    <div class="tap-bar d-flex align-items-center justify-content-center">
-        <a href="#" class="tab active open">参加中</a>
-        <a href="#" class="tab closed">終了</a>
-    </div>
-    <div class="campaigns d-grid gc-2 gap-4 ptb-6">
+<div class="container home" style="margin-top: 100px">
+    <div class="max-width-700">
+        <div class="arrow arrow-left">                
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.45 100.98"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M15.51,44.14a8.53,8.53,0,0,0-.16,9.09l16.9,27.82a1.49,1.49,0,0,1,.2.74V99.55a1.42,1.42,0,0,1-2.64.74L1.24,53.23a8.51,8.51,0,0,1,.15-9.09L29.83.65a1.43,1.43,0,0,1,2.62.78V17.81a1.42,1.42,0,0,1-.23.78Z" style="fill:#ffffff"/></g></g></svg>
+        </div>
+
+        <div class="slider-container">
+
+        </div>
+
+        <div class="arrow arrow-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.45 100.98"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M16.94,56.83a8.53,8.53,0,0,0,.16-9.09L.21,19.93A1.41,1.41,0,0,1,0,19.19V1.43A1.42,1.42,0,0,1,2.64.69L31.21,47.74a8.51,8.51,0,0,1-.15,9.09L2.62,100.33A1.43,1.43,0,0,1,0,99.55V83.17a1.42,1.42,0,0,1,.23-.78Z" style="fill:#ffffff"/></g></g></svg>
+        </div>
+        <div class="tap-bar d-flex align-items-center justify-content-center">
+            <a href="#" class="tab active open">参加中</a>
+            <a href="#" class="tab closed">終了</a>
+        </div>
+        <div class="campaigns d-grid gc-2 gap-4 ptb-6">
+            
+        </div>
         
     </div>
+    
 </div>
 
 {% endblock content %}
 {% block extra_js %}
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
     const campaigns = document.querySelector('.campaigns');
     const tabBtns = document.querySelectorAll('.tap-bar .tab');
@@ -123,4 +135,73 @@
     window.addEventListener( "load", addData );
 </script>
 
+<script>
+const slider = document.querySelector('.slider-container');
+let count = 0;
+let html1 = '';
+const data1 = [];
+{%for campaign in campaigns %}
+one_data = {
+    id: '{{campaign.id}}',
+    img: "{% with campaign|get_creative_img as img %}{%if img%}{{img.url}}{%endif%}{%endwith%}",
+    title: "{{campaign.title}}",
+    everyone: '{{campaign|get_applicant_by_campaign}}',
+    myself: 0,
+    status: "open"
+};
+data1.push(one_data);
+{%endfor%}
+function fetchingData( para ){
+    html1 = '';
+
+    data1.forEach( i => {
+
+        if( i.status == para ){
+            
+            html1 += `<div class="campaign">
+                    <div class="campaing-fig radius-tlr-10 radius-blr-10 overflow-hidden">
+                        <img src=${i.img}>
+                    </div>
+                    <a href="#" class="fs-16 fw-bold mt-2 d-flex">${i.title}</a>
+                </div>`;
+            count++;
+        }
+        
+    } )
+
+    const sliderContainer = document.querySelector( '.slider-container' );
+    
+    sliderContainer.innerHTML = html1;
+
+    initSlider();
+
+}
+
+
+function initData(data1){
+    fetchingData( data1 );
+}
+function initSlider(){
+    $(slider).slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        centerMode: true,
+        centerPadding: '60px', 
+      })
+
+    const arrowLeft = document.querySelector( '.arrow-left' );
+    const arrowRight = document.querySelector( '.arrow-right' );
+    
+    arrowLeft.addEventListener( 'click', ()=> {
+        document.querySelector( '.slick-prev' ).click();
+    } )
+    
+    arrowRight.addEventListener( 'click', ()=> {
+        document.querySelector( '.slick-next' ).click();
+    } )
+}
+initData("open");
+</script>
 {% endblock extra_js %}
