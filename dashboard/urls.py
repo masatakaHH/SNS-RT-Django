@@ -17,6 +17,7 @@ urlpatterns = [
     
     path('legal/', home_views.LegalView.as_view(), name='legal'),
     path('about/', home_views.AboutView.as_view(), name='about'),
+    path('tos/', home_views.TermofServiceView.as_view(), name='tos'),
     
     path('applicant/', dashboard_views.ApplicantPush.as_view(), name='applicant'),
 ]

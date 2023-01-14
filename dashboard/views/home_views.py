@@ -67,4 +67,7 @@ class LegalView(TemplateView):
     
 class AboutView(TemplateView):
     template_name = 'about.html'
+    
+class TermofServiceView(TemplateView):
+    template_name = 'tos.html'
    
