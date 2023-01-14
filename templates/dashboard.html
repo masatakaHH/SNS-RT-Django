@@ -87,8 +87,8 @@
                                     <div class="title-wrapper"><a href="{%url 'dashboard:campaign-detail' pk=obj.id %}">{{obj.title}}</a></div>
                                 </td>
                                 <td>{{obj|check_status_campaign}}</td>
-                                <td>{{obj.sdate}}</td>
-                                <td>{{obj.created_at|date:"Y年m月d日"}}まで</td>                                                               
+                                <td>{{obj.sdate|date:"Y年m月d日"}}</td>
+                                <td>{{obj.edate|date:"Y年m月d日"}}まで</td>                                                               
                             </tr>
                             {%endfor%}                            
                         </tbody>

@@ -135,7 +135,7 @@
                                                 <label for="publish_date">公開日時</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="text" class="form-control" name="publish_date" id="publish_date" value="{%if object.sdate%}{{object.sdate|date:"Y-m-d"}}{%endif%}">
-                                                    <input type="time" name="publish_date_time" id="publish_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%endif%}">
+                                                    <input type="time" name="publish_date_time" id="publish_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%else%}12:00{%endif%}">
                                                 </div>
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                                                 <label for="end_date">終了日時</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="text" class="form-control" name="end_date" id="end_date" value="{%if object.edate%}{{object.edate|date:"Y-m-d"}}{%endif%}">
-                                                    <input type="time" name="end_date_time" id="end_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%endif%}">  
+                                                    <input type="time" name="end_date_time" id="end_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%else%}12:00{%endif%}">  
                                                 </div>                                                  
                                             </div>
                                         </div>                                            
