@@ -310,7 +310,34 @@ class CampaignUpdate(LoginRequiredMixin,TemplateView):
         campaign.save()
         
         return JsonResponse({'status':'success'})
+
+@login_required
+def campaign_publish(request,pk):
+    campaign = get_object_or_404(Campaign,id=pk)
+    publish_date = request.POST.get('publish_date')
+    publish_date_time = request.POST.get('publish_date_time')
+    end_date = request.POST.get('end_date')
+    end_date_time = request.POST.get('end_date_time')
+    if publish_date and publish_date_time:
+        publish_date = datetime.strptime(publish_date,'%Y-%m-%d')
+        publish_date_time = datetime.strptime(publish_date_time,'%H:%M').time()
+        publish_dtime = datetime.combine(publish_date,publish_date_time)
     
+    if end_date and end_date_time:
+        end_date = datetime.strptime(end_date,'%Y-%m-%d')
+        end_date_time = datetime.strptime(end_date_time,'%H:%M').time()
+        end_dtime = datetime.combine(end_date,end_date_time)            
+        if end_dtime < datetime.today():
+            print('終了日付入力が無効です。')
+            messages.add_message(request, messages.ERROR, '正しい終了日付を入力してください。')
+            return redirect('dashboard:campaign-detail', pk=pk)
+    
+    if publish_date and publish_date_time: campaign.sdate = publish_dtime
+    if end_date and end_date_time: 
+        campaign.edate = end_dtime
+        campaign.is_publish = True
+    campaign.save()
+    return redirect('dashboard:campaign-detail', pk=pk)
      
 @login_required
 def gift_update(request):

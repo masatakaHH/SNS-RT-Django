@@ -32,7 +32,42 @@
                         </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger btn-sm">公開予約</button>
+                    <button data-toggle="modal" data-target="#publishmodal" type="button" class="btn btn-danger btn-sm">公開予約</button>
+                    <div class="modal fade" id="publishmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>公開予約</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <form action="{% url 'dashboard:campaign-publish' pk=object.id%}" method="POST" enctype="multipart/form-data">   
+                                {% csrf_token %}                
+                                <div class="modal-body">    
+                                    <div class="form-group">
+                                        <label for="publish_date">公開日時</label>
+                                        <div class="d-flex justify-content-between">
+                                            <input type="text" class="form-control" name="publish_date" id="publish_date" value="{%if object.sdate%}{{object.sdate|date:"Y-m-d"}}{%endif%}">
+                                            <input type="time" name="publish_date_time" id="publish_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%else%}12:00{%endif%}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="end_date">終了日時</label>
+                                        <div class="d-flex justify-content-between">
+                                            <input type="text" class="form-control" name="end_date" id="end_date" value="{%if object.edate%}{{object.edate|date:"Y-m-d"}}{%endif%}">
+                                            <input type="time" name="end_date_time" id="end_date_time" value="{%if object.sdate%}{{object.sdate|time:"H:i"}}{%else%}12:00{%endif%}">  
+                                        </div>                                                  
+                                    </div>
+                                </div>               
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">キャンセル</button>
+                                <button type="submit" class="btn btn-primary">予約する</button>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
                 <div>
             </div>
         </div>
@@ -356,6 +391,31 @@
             "setDate", new Date()
         );
     };    
+
+    $("#publish_date").datepicker(
+        {
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+        }
+    );
+    if($('#publish_date').val() == ""){
+        $('#publish_date').datepicker(
+            "setDate", new Date()
+        );
+    };
+    $("#end_date").datepicker(
+        {
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+        }
+    );
+    if($('#end_date').val() == ""){
+        $('#end_date').datepicker(
+            "setDate", new Date()
+        );
+    };
     
 </script>
 

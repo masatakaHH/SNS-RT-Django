@@ -34,11 +34,11 @@ class HomeView(TemplateView):
             if campaign.edate < now:
                 end_campaigns.append(campaign)
         
-        #context['publish_campaigns'] = publish_campaigns
-        #context['end_campaigns'] = end_campaigns
-        context['publish_campaigns'] = Campaign.objects.filter(user=self.request.user)
-        context['end_campaigns'] = Campaign.objects.filter(user=self.request.user)
-        context['campaigns'] = Campaign.objects.filter(sdate__lt=now).filter(edate__gt=now)
+        context['publish_campaigns'] = publish_campaigns
+        context['end_campaigns'] = end_campaigns
+        #context['publish_campaigns'] = Campaign.objects.filter(user=self.request.user)
+        #context['end_campaigns'] = Campaign.objects.filter(user=self.request.user)
+        context['campaigns'] = Campaign.objects.filter(is_publish=True,sdate__lt=now).filter(edate__gt=now)
         
         return context
     
