@@ -14,10 +14,12 @@ urlpatterns = [
     path('dashboard/campaign-create/', dashboard_views.CampaignCreate.as_view(), name='campaign-create'), 
     path('dashboard/campaign/<str:campaign_id>/edit', dashboard_views.CampaignUpdate.as_view(), name='campaign-edit'),    
     path('dashboard/campaign-gift/update/', dashboard_views.gift_update, name='gift-update'),
+    path('dashboard/campaign/<str:pk>/publish', dashboard_views.campaign_publish, name='campaign-publish'),
     
     path('legal/', home_views.LegalView.as_view(), name='legal'),
     path('about/', home_views.AboutView.as_view(), name='about'),
     path('tos/', home_views.TermofServiceView.as_view(), name='tos'),
+    path('contact/', home_views.ContactFormView.as_view(), name='contact'),
     
     path('applicant/', dashboard_views.ApplicantPush.as_view(), name='applicant'),
 ]

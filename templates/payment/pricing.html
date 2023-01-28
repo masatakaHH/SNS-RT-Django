@@ -1,13 +1,14 @@
 {% extends "base_1.html" %}
 {% load static %}
+{% load humanizelib %}
 {% block content %}      
 <!-- Page header starts -->
 <div class="container-fluid">
-    <div class="page-header-wrap overflow-hidden parent-floating pt-20">
+    <div class="page-header-wrap overflow-hidden parent-floating mt-5 pt-5">
         
     </div>
 </div>
-<div class="container page-container page-booster">
+<div class="container page-container price-page">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -21,23 +22,29 @@
     <div class="row">
         <div class=" col-xl-12 col-lg-12">
             <div class="row">
+                <h1 class="title text-center text-dark">料金プラン</h1>
                 {%for plan in plans %}
                 <div class="col-lg-6  mb-5">
                     <div class="card shadow">
-                        <div class="card-header">
+                        {%if paymenthistory.plan == plan %}
+                        <div class="card-header bg-red radius-tlr-10 color-white">                        
+                        {%else%}
+                        <div class="card-header bg-blue radius-tlr-10 color-white">
+                        {%endif%}
                             <span>{{plan.name}}</span>
                         </div>
                         <div class="card-body">
-                            <strong>14日間無料</strong>
-                            <p><small>¥{{plan.price}}</small></p>
-                            <p>{{plan.summary}}</p>
+                            
+                            <strong>¥{{plan.price|intcomma}}</strong>
+                            <p>14日間無料</p>
+                            <p><small>{{plan.summary}}</small></p>
                             
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer d-flex justify-content-center">
                             {%if paymenthistory.plan == plan %}
-                            <button class="btn btn-danger cancel" data-id="{{paymenthistory.checkout_session}}" >お申込み撤回</button>                            
+                            <button class="btn c-red text-center cancel" data-id="{{paymenthistory.checkout_session}}" >お申込み撤回</button>                            
                             {%else%}
-                            <button class="btn btn-primary purchase" data-id="{{plan.id}}" >お申込み</button>
+                            <button class="btn c-blue text-center purchase" data-id="{{plan.id}}" >お申込み</button>
                             {%endif%}
                         </div>
                     </div>

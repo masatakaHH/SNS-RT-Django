@@ -1,0 +1,63 @@
+{% extends "base_1.html" %}
+{% load static %}
+{% block content %}
+<div class="header-wrapper">
+    <div class="header-content container">
+        <br>
+        <h1 class="fc-white fw-bold mt-2">合同会社レットイットライド</h1>
+        <p class="fc-white">お問い合わせ</p>
+    </div>
+
+    <svg class="about-svg" viewBox="0 0 1920 87" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="HeaderWave__Svg-vw3ffb-0 bPGopr PageHeader__PageHeaderWave-sc-18zpy0r-1 crlDWK"><path d="m1920.11 0v81.49s-295.22-39.28-724.57-39.28-654.35 98.65-1195.54 0v-42.21z" class="HeaderWave__MainPath-vw3ffb-1 GroJy"></path><path d="m1429.37 16.61c-52.53 0-106.14.4-159.82 1.33-253 4.39-468.52 37-746.78 37-150.58-.01-319.59-9.57-522.77-38.31v25.58c180.42 32.89 325.65 43.84 455.07 43.84 258.8 0 454.25-43.84 740.47-43.84 429.35 0 724.57 39.28 724.57 39.28v-54.79c-115.72-4.57-295.9-10.09-490.74-10.09" class="HeaderWave__MainPath-vw3ffb-1 GroJy"></path><path d="m1429.37 16.61c-52.53 0-106.14.4-159.82 1.33-253 4.39-468.52 37-746.78 37-150.58-.01-319.59-9.57-522.77-38.31v25.58c180.42 32.89 325.65 43.84 455.07 43.84 258.8 0 454.25-43.84 740.47-43.84 429.35 0 724.57 39.28 724.57 39.28v-54.79c-115.72-4.57-295.9-10.09-490.74-10.09" class="HeaderWave__OverlayPath-vw3ffb-2 cEFPhC"></path></svg>
+</div>
+<!-- page starts -->
+<section id="about-section">
+    <div class="container about">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <form  method="POST">
+                    {% csrf_token %}
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">企業名</label>
+                        <input type="text" class="form-control" name="company">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">名前</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">ふりがな</label>
+                        <input type="text" class="form-control" name="hurigana">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">部署</label>
+                        <input type="text" class="form-control" name="department">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">住所</label>
+                        <input type="text" class="form-control" name="address">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">電話</label>
+                        <input type="text" class="form-control" name="phone">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="user" class="form-label">メールアドレス</label>
+                        <input type="email" class="form-control" name="email" required id="email">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="exampleFormControlTextarea1">問い合わせ内容</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3" required></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button class="btn c-blue">送信する</button>
+                    </div>
+                </form>
+            </div>                    
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

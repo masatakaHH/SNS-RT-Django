@@ -36,12 +36,15 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',    
+    'django.contrib.humanize',
 ]
 THIRD_PARTY_APPS = [        
     'escapejson',
     'corsheaders',
     'crispy_forms',    
     'django_jsonfield_backport',    
+    'django_humanize',
+    
 ]
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 
@@ -115,13 +118,16 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+#EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 EMAIL_FILE_PATH = 'email_log'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
 EMAIL_FROM = "mycantest777@gmail.com"
 NAME_FROM = "Hello"
 EMAIL_USE_TLS = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024000000
+USE_THOUSAND_SEPARATOR = True
 
 if ENVIRONMENT == 'local':
     # Static files (CSS, JavaScript, Images)

@@ -277,10 +277,10 @@ class ProfilePublishView(TemplateView):
             applicant_num = len(Applicants.objects.filter(campaign=campaign))
             applicant_nums += applicant_num
         context['applicant_num'] = applicant_nums
-        #context['publish_campaigns'] = campaigns.filter(is_publish=True,is_end=False).filter(sdate__gt=now)
-        context['publish_campaigns'] = campaigns
-        #context['end_campaigns'] = campaigns.filter(is_publish=True,is_end=True).filter(edate__gt=now)
-        context['end_campaigns'] = campaigns
+        context['publish_campaigns'] = campaigns.filter(is_publish=True,is_end=False).filter(sdate__gt=now)
+        #context['publish_campaigns'] = campaigns
+        context['end_campaigns'] = campaigns.filter(is_publish=True,is_end=True).filter(edate__gt=now)
+        #context['end_campaigns'] = campaigns
         return render(request,self.template_name,context)
 
 class PlanView(TemplateView):
@@ -290,9 +290,11 @@ class PlanView(TemplateView):
     def get(self,request):
         context = {}
         plans = Plan.objects.all()
-        paymenthistory = PaymentHistory.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            paymenthistory = PaymentHistory.objects.filter(user=request.user)
+            context['paymenthistory'] = paymenthistory
         context['plans'] = plans
-        context['paymenthistory'] = paymenthistory
+        #context['paymenthistory'] = paymenthistory
         return render(request, self.template_name, context)
     
 class CardView(TemplateView):

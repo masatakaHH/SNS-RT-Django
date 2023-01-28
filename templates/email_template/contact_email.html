@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{subject}}</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        *,*::after,*::before{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        table{
+            max-width: 530px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            border: 20px solid transparent;
+        }
+
+        table .header{
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 29px;
+            color: #000000;
+        }
+
+        table p{
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: #000000;
+        }
+
+        .mtb-40{
+            border-top: 40px solid transparent;
+            border-bottom: 40px solid transparent;
+        }
+
+        .mb-40{
+            border-bottom: 40px solid transparent;
+        }
+
+        .mb-20{
+            border-bottom: 20px solid transparent;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <!--<tr>
+           <td>
+                <h1 class="header">{{subject}}</h1>
+            </td> 
+        </tr>
+        <tr>
+            <td class="mtb-40">
+                <p>タイトル：【建設求人ブック】ご応募の受付が完了しました</p>
+                <p>送信元メールアドレス：</p>
+            </td>
+        </tr>-->
+        
+        <tr>
+          <td class="mb-20">
+              <p class="mb-20">お問い合わせ</p>              
+          </td>
+        </tr>
+        <tr>
+            <td class="mb-20">
+                <p>◇－－－－－－－－－－－－－－－－－－－－－－－－</p>              
+            </td>
+          </tr>
+        <tr>
+          <td class="mb-40">
+                <p>ユーザー情報: {{email}}</p>
+                <p>お問い合わせ情報: <br>
+                    
+                    企業名: {%if company%}{{company}}{%endif%}<br>
+                    
+                    名前: {%if username%}{{username}}{%endif%}<br>
+                    
+                    ふりがな: {%if hurigana%}{{hurigana}}{%endif%}<br>
+                    
+                    部署: {%if department%}{{department}}{%endif%}<br>
+                    
+                    住所: {%if address%}{{address}}{%endif%}<br>
+                    
+                    電話: {%if phone%}{{phone}}{%endif%}                    
+                    
+                </p>
+                <p>問い合わせ内容: {{content}}</p>                        
+          </td>
+        </tr>
+        <tr>
+          <td class="mb-20">
+              <p>－－－－－－－－－－－－－－－－－－－－－－－－◆</p>              
+          </td>
+        </tr>        
+    </table>
+</body>
+</html>

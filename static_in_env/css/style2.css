@@ -149,7 +149,9 @@ section{
 .bg-grey{
     background-color:#fafafa;
 }
-
+.bg-red {
+    background-color: #F15A2B;
+}
 .box{
     padding-top: 50px;
     padding-bottom: 50px;
@@ -454,6 +456,12 @@ header{
 }
 
 /* price starts */
+.price-page{
+    max-width: 800px;
+}
+.color-white{
+    color: #fff;
+}
 #price .boxes{
     padding-top: 100px;
     padding-bottom: 100px;
@@ -471,6 +479,24 @@ header{
 
 #price{
     position: relative;
+}
+.btn.c-blue {
+    background-color: var(--blue);
+    border-color: var(--blue);
+}
+.btn.c-red {
+    background-color: var(--red);
+    border-color: var(--red);
+}
+.btn.c-red:hover {
+    background-color: #fff;
+    border-color: var(--red);
+    color: var(--red);
+}
+.btn.c-blue:hover {
+    background-color: #fff;
+    border-color: var(--blue);
+    color: var(--blue);
 }
 
 #price .dafloating{

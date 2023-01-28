@@ -4,6 +4,7 @@ django-cors-headers==3.10.1
 django-crispy-forms==1.14.0
 django-decorator-include==2.1
 django-decouple==2.1
+django-humanize==0.1.2
 django-jsonfield-backport==1.0.4
 django-sendgrid-v5==1.2.0
 django-storages==1.12.3
