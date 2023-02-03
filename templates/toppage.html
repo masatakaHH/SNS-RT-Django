@@ -73,7 +73,7 @@
         <div class="row d-flex justify-content-between">
             <div class="feature col-xs-12 col-md-4">
                 <h3 class="feature-count from-bottom-to-top">1</h3>
-                <img src="{% static 'images/LP_image_tokucho1 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <img src="{% static 'images/LP_image_tokucho1.png'%}" alt="" class="feature-img from-bottom-to-top">
                 <div class="feature-body">
                     <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
                     <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
@@ -81,18 +81,18 @@
             </div>
             <div class="feature col-xs-12 col-md-4">
                 <h3 class="feature-count from-bottom-to-top">2</h3>
-                <img src="{% static 'images/LP_image_tokucho2 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <img src="{% static 'images/LP_image_tokucho2.png'%}" alt="" class="feature-img from-bottom-to-top">
                 <div class="feature-body">
-                    <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
-                    <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
+                    <h4 class="feature-body-title from-bottom-to-top">業界最安値を実現</h4>
+                    <p class="feature-body-details from-bottom-to-top">無駄な機能を省くことにより、業界屈指の超低価格でのサービス提供を実現。今まで予算が合わなかった中小企業や個人事業主でも大企業のようにキャンペーン活動ができます。</p>
                 </div>
             </div>
             <div class="feature col-xs-12 col-md-4">
                 <h3 class="feature-count from-bottom-to-top">3</h3>
-                <img src="{% static 'images/LP_image_tokucho3 1.png'%}" alt="" class="feature-img from-bottom-to-top">
+                <img src="{% static 'images/LP_image_tokucho3.png'%}" alt="" class="feature-img from-bottom-to-top">
                 <div class="feature-body">
-                    <h4 class="feature-body-title from-bottom-to-top">自動化で業務軽減</h4>
-                    <p class="feature-body-details from-bottom-to-top">あらかじめ設定してしまえば、フォロー＆リツィートに関する確認を自動化。キャンペーン業務に関する業務を圧倒的に削減し担当者の手間が大幅に減少。</p>
+                    <h4 class="feature-body-title from-bottom-to-top">オリジナルイベント作成</h4>
+                    <p class="feature-body-details from-bottom-to-top">詳細設定がついているので、あなたのやりたいキャンペーンが自分でコーディネートできます。顧客にあったキャンペーンを作成しましょう。</p>
                 </div>
             </div>
         </div>
@@ -110,20 +110,28 @@
             </div>
             <div class="col-xs-12 col-md-12 col-lg-8 bg-sky corner-left-round d-flex justify-content-end align-items-center boxes">
                 <div class="d-flex">
-                    <div class="price-box d-flex flex-column justify-content-between align-items-center">
+                    <div class="price-box d-flex flex-column justify-content-between align-items-center mr-3">
                         <div class="price-img">
                             <img src="{% static 'images/box-search 1.png'%}" alt="">
                         </div>
-                        <h3 class="price-box-title">価格計画</h3>
-                        <p class="price-box-details">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                        <h3 class="price-box-title">１か月</h3>
+                        <p class="price-box-details">１か月（７日間無料）25000円（税込）</p>
+                        <a class="btn c-blue" href="{%url 'accounts:payment-pricing'%}">詳細を確認する</a>
+                    </div>
+                    <div class="price-box d-flex flex-column justify-content-between align-items-center mr-3">
+                        <div class="price-img">
+                            <img src="{% static 'images/box-search 1.png'%}" alt="">
+                        </div>
+                        <h3 class="price-box-title">６か月分</h3>
+                        <p class="price-box-details">6か月（７日間無料）99000円（税込）</p>
                         <a class="btn c-blue" href="{%url 'accounts:payment-pricing'%}">詳細を確認する</a>
                     </div>
                     <div class="price-box d-flex flex-column justify-content-between align-items-center">
                         <div class="price-img">
                             <img src="{% static 'images/box-search 1.png'%}" alt="">
                         </div>
-                        <h3 class="price-box-title">価格計画</h3>
-                        <p class="price-box-details">私たちはあなたに提案をし、次のような非常に重要な議論をします。</p>
+                        <h3 class="price-box-title">1年分</h3>
+                        <p class="price-box-details">1年（７日間無料）158000円（税込）</p>
                         <a class="btn c-blue" href="{%url 'accounts:payment-pricing'%}">詳細を確認する</a>
                     </div>
                 </div>

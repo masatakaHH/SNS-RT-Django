@@ -208,7 +208,9 @@ section{
 .mt-8{
     margin-top: 80px;
 }
-
+.mr-3{
+    margin-right: 30px;
+}
 .p-16{
     padding-top: 16px;
     padding-left: 16px;
@@ -530,14 +532,6 @@ header{
     width: 50%;
     row-gap: 40px;
     max-width: 350px;
-}
-
-.price-box:nth-child(1){
-    margin-right: 25px;
-}
-
-.price-box:nth-child(2){
-    margin-left: 25px;
 }
 
 /* Case study starts */
